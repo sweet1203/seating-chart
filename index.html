@@ -301,6 +301,7 @@
   <div class="header-right">
     <input type="search" class="search-input" id="searchInput" placeholder="학생 검색..." oninput="onSearch(this.value)" onkeydown="if(event.key==='Escape'){this.value='';onSearch('');}">
     <span class="stats-badge" id="stats">0 / 30명</span>
+    <button class="btn" id="btnViewToggle" onclick="toggleStudentView()">👩‍🎓 학생 뷰</button>
     <button class="btn btn-blue" onclick="openSaveVersionModal()" id="btnSaveVer" style="display:none">💾 버전 저장</button>
     <button class="btn" onclick="printWithFilename()">🖨️ 인쇄</button>
   </div>
@@ -365,8 +366,9 @@
           <div class="print-title" id="printClassName"></div>
           <div class="print-meta" id="printDate"></div>
         </div>
+        <div class="teacher-area" id="teacherAreaTop" style="display:none">🖥️ 교탁 / 앞쪽 방향</div>
         <div class="classroom" id="classroom"></div>
-        <div class="teacher-area">🖥️ 교사용 컴퓨터</div>
+        <div class="teacher-area" id="teacherAreaBottom">🖥️ 교사용 컴퓨터</div>
       </div>
     </div>
   </div>
@@ -481,7 +483,30 @@ const ROW_PAIRS = [
   { left:[[22,23,24],[21,20,19]], right:[[16,17,18],[15,14,13]] },
   { left:[[12,11,10],[7,8,9]],   right:[[4,5,6],[3,2,1]] }
 ];
-const GROUP_LABELS = ['뒤쪽','중간 왼쪽','중간 오른쪽','앞 왼쪽','앞 오른쪽'];
+// 학생 뷰: 앞뒤 역전 + 좌우 스왑 + 행 내 좌석 순서 역전
+// (교탁에 가까운 행이 각 그룹의 첫 번째 행 = 위쪽)
+const STUDENT_ROW_PAIRS = [
+  { left:[[1,2,3],[6,5,4]],      right:[[9,8,7],[10,11,12]] },
+  { left:[[13,14,15],[18,17,16]], right:[[19,20,21],[24,23,22]] },
+  { left:[[30,29,28],[25,26,27]], right:null }
+];
+// 각 그룹의 안정적 키 = min 좌석번호
+function getOrderedGroups() {
+  if (isStudentView) return [
+    {key:'1',  label:'앞쪽 왼편 (교탁 쪽)'},
+    {key:'7',  label:'앞쪽 오른편 (교탁 쪽)'},
+    {key:'13', label:'중간 왼편'},
+    {key:'19', label:'중간 오른편'},
+    {key:'25', label:'뒤쪽'},
+  ];
+  return [
+    {key:'25', label:'뒤쪽'},
+    {key:'19', label:'중간 왼쪽'},
+    {key:'13', label:'중간 오른쪽'},
+    {key:'7',  label:'앞 왼쪽'},
+    {key:'1',  label:'앞 오른쪽'},
+  ];
+}
 const COLOR_PRESETS = [
   { key:'default', label:'기본',  bg:null,      border:null,      dot:'#dee2e6' },
   { key:'green',   label:'초록',  bg:'#d4f1e3', border:'#5DCAA5', dot:'#5DCAA5' },
@@ -501,7 +526,8 @@ let viewSeats = null;
 let swapMode = false;
 let swapFirstSeat = null;
 let searchQuery = '';
-let groupColors = {};      // { groupIdx: 'blue', ... }
+let groupColors = {};      // { minSeatKey: 'blue', ... }
+let isStudentView = false;
 let undoStack = [];        // max 20 snapshots of seats
 let autoSaveTimer = null;
 
@@ -525,28 +551,30 @@ function fillYearOptions() {
 }
 
 // ── 레이아웃 ──
-let groupEls = []; // DOM refs for the 5 groups, in order
+let groupEls = {}; // { minSeatKey: domEl }
 
 function buildLayout() {
+  const pairs = isStudentView ? STUDENT_ROW_PAIRS : ROW_PAIRS;
   const cl = document.getElementById('classroom');
   cl.innerHTML = '';
-  groupEls = [];
-  let gIdx = 0;
-  ROW_PAIRS.forEach(rp => {
+  groupEls = {};
+  pairs.forEach(rp => {
     const pair = document.createElement('div');
     pair.className = 'row-pair';
-    if (rp.left) { const g = makeGroup(rp.left, gIdx++); groupEls.push(g); pair.appendChild(g); }
+    if (rp.left)  { const key = String(Math.min(...rp.left.flat()));  const g = makeGroup(rp.left, key);  groupEls[key]=g; pair.appendChild(g); }
     else { const sp = document.createElement('div'); sp.className = 'spacer'; pair.appendChild(sp); }
-    if (rp.right) { const g = makeGroup(rp.right, gIdx++); groupEls.push(g); pair.appendChild(g); }
+    if (rp.right) { const key = String(Math.min(...rp.right.flat())); const g = makeGroup(rp.right, key); groupEls[key]=g; pair.appendChild(g); }
     else { const sp = document.createElement('div'); sp.className = 'spacer'; pair.appendChild(sp); }
     cl.appendChild(pair);
   });
+  document.getElementById('teacherAreaTop').style.display    = isStudentView ? '' : 'none';
+  document.getElementById('teacherAreaBottom').style.display = isStudentView ? 'none' : '';
 }
 
-function makeGroup(rows, idx) {
+function makeGroup(rows, key) {
   const g = document.createElement('div');
   g.className = 'group';
-  g.dataset.groupIdx = idx;
+  g.dataset.groupKey = key;
   rows.forEach(row => {
     const dr = document.createElement('div');
     dr.className = 'desk-row';
@@ -564,8 +592,9 @@ function makeGroup(rows, idx) {
 }
 
 function allSeatNums() {
+  const pairs = isStudentView ? STUDENT_ROW_PAIRS : ROW_PAIRS;
   const n = [];
-  ROW_PAIRS.forEach(rp => [rp.left,rp.right].forEach(g => { if(g) g.forEach(r => r.forEach(x => n.push(x))); }));
+  pairs.forEach(rp => [rp.left,rp.right].forEach(g => { if(g) g.forEach(r => r.forEach(x => n.push(x))); }));
   return n;
 }
 
@@ -906,14 +935,14 @@ function restoreVersion() {
 }
 
 // ── 모둠 색상 ──
-function applyGroupColor(idx, colorKey) {
+function applyGroupColor(key, colorKey) {
   const preset = COLOR_PRESETS.find(p=>p.key===colorKey) || COLOR_PRESETS[0];
-  const el = groupEls[idx]; if(!el) return;
+  const el = groupEls[key]; if(!el) return;
   el.style.borderColor = preset.border || '';
   el.querySelectorAll('.num-cell').forEach(nc => { nc.style.background = preset.bg || ''; });
 }
 function applyAllGroupColors() {
-  groupEls.forEach((_,i) => applyGroupColor(i, groupColors[i]||'default'));
+  Object.keys(groupEls).forEach(key => applyGroupColor(key, groupColors[key]||'default'));
 }
 function openColorModal() {
   if(!activeClassId){showToast('먼저 반을 선택해 주세요');return;}
@@ -924,15 +953,15 @@ function closeColorModal(){document.getElementById('colorPickerOverlay').classLi
 document.getElementById('colorPickerOverlay').addEventListener('click',function(e){if(e.target===this)closeColorModal();});
 function renderColorPickerGroups() {
   const c=document.getElementById('colorPickerGroups'); c.innerHTML='';
-  GROUP_LABELS.forEach((label,idx)=>{
+  getOrderedGroups().forEach(({key,label})=>{
     const row=document.createElement('div'); row.className='color-group-row';
     const lbl=document.createElement('div'); lbl.className='color-group-label'; lbl.textContent=label; row.appendChild(lbl);
     const sw=document.createElement('div'); sw.className='color-swatches';
     COLOR_PRESETS.forEach(p=>{
-      const s=document.createElement('div'); s.className='color-swatch'+(( (groupColors[idx]||'default')===p.key)?' selected':'');
+      const s=document.createElement('div'); s.className='color-swatch'+(((groupColors[key]||'default')===p.key)?' selected':'');
       s.style.background=p.dot; s.title=p.label;
       s.addEventListener('click',()=>{
-        groupColors[idx]=p.key; applyGroupColor(idx,p.key); triggerAutoSave();
+        groupColors[key]=p.key; applyGroupColor(key,p.key); triggerAutoSave();
         sw.querySelectorAll('.color-swatch').forEach(x=>x.classList.remove('selected'));
         s.classList.add('selected');
       });
@@ -942,7 +971,7 @@ function renderColorPickerGroups() {
   });
 }
 function resetAllColors() {
-  groupEls.forEach((_,i)=>{groupColors[i]='default'; applyGroupColor(i,'default');}); triggerAutoSave(); showToast('색상이 초기화되었습니다');
+  Object.keys(groupEls).forEach(key=>{groupColors[key]='default'; applyGroupColor(key,'default');}); triggerAutoSave(); showToast('색상이 초기화되었습니다');
   renderColorPickerGroups();
 }
 
@@ -974,6 +1003,21 @@ function exportCSV() {
 }
 
 // ── 인쇄 ──
+// ── 학생/교사 뷰 전환 ──
+function toggleStudentView() {
+  isStudentView = !isStudentView;
+  const btn = document.getElementById('btnViewToggle');
+  btn.textContent = isStudentView ? '👨‍🏫 교사 뷰' : '👩‍🎓 학생 뷰';
+  btn.style.background = isStudentView ? 'var(--blue-light)' : '';
+  btn.style.borderColor = isStudentView ? 'var(--blue)' : '';
+  btn.style.color = isStudentView ? 'var(--blue-dark)' : '';
+  if (swapMode) toggleSwapMode();
+  buildLayout();
+  refreshAllSeats();
+  applyAllGroupColors();
+  showToast(isStudentView ? '👩‍🎓 학생 뷰 — 뒤에서 교탁을 바라보는 시점' : '👨‍🏫 교사 뷰 — 교탁에서 학생을 바라보는 시점');
+}
+
 function printWithFilename() {
   const ci=activeClassId?db.classes.find(c=>c.id===activeClassId):null;
   const today=new Date();
