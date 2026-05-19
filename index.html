@@ -7,492 +7,291 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --green: #1D9E75;
-    --green-dark: #0F6E56;
-    --green-light: #E1F5EE;
-    --green-border: #5DCAA5;
-    --blue: #1A73E8;
-    --blue-dark: #1558B0;
-    --blue-light: #E8F0FE;
-    --yellow: #FFF8E1;
-    --yellow-border: #F9A825;
-    --red: #E24B4A;
-    --red-dark: #A32D2D;
-    --orange: #FF6D00;
-    --gray-50: #F8F9FA;
-    --gray-100: #F1F3F5;
-    --gray-200: #E9ECEF;
-    --gray-300: #DEE2E6;
-    --gray-400: #CED4DA;
-    --gray-500: #ADB5BD;
-    --gray-600: #6C757D;
-    --gray-700: #495057;
-    --gray-800: #343A40;
-    --gray-900: #212529;
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
-    --shadow-lg: 0 8px 32px rgba(0,0,0,0.16);
-    --radius: 8px;
-    --radius-lg: 12px;
-    --sidebar-w: 220px;
+    --green:#1D9E75;--green-dark:#0F6E56;--green-light:#E1F5EE;--green-border:#5DCAA5;
+    --blue:#1A73E8;--blue-dark:#1558B0;--blue-light:#E8F0FE;
+    --yellow:#FFF8E1;--yellow-border:#F9A825;
+    --red:#E24B4A;--red-dark:#A32D2D;
+    --orange:#FF6D00;
+    --gray-50:#F8F9FA;--gray-100:#F1F3F5;--gray-200:#E9ECEF;--gray-300:#DEE2E6;
+    --gray-400:#CED4DA;--gray-500:#ADB5BD;--gray-600:#6C757D;
+    --gray-700:#495057;--gray-800:#343A40;--gray-900:#212529;
+    --shadow-sm:0 1px 3px rgba(0,0,0,0.08);--shadow-md:0 4px 16px rgba(0,0,0,0.12);
+    --shadow-lg:0 8px 32px rgba(0,0,0,0.16);
+    --radius:8px;--radius-lg:12px;--sidebar-w:220px;
   }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Noto Sans KR',sans-serif;background:var(--gray-100);color:var(--gray-900);min-height:100vh;}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  /* 헤더 */
+  header{background:#fff;border-bottom:1px solid var(--gray-200);padding:0 1.2rem;height:52px;
+    display:flex;align-items:center;justify-content:space-between;
+    position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm);}
+  .header-left{display:flex;align-items:center;gap:10px;flex:1;min-width:0;}
+  .logo{width:28px;height:28px;background:var(--green);border-radius:6px;
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-size:13px;font-weight:700;flex-shrink:0;}
+  .class-tag{font-size:11px;font-weight:600;color:var(--green-dark);
+    background:var(--green-light);border:1px solid var(--green-border);
+    border-radius:20px;padding:2px 9px;white-space:nowrap;
+    max-width:130px;overflow:hidden;text-overflow:ellipsis;flex-shrink:0;}
+  .class-tag.empty{color:var(--gray-500);background:var(--gray-100);border-color:var(--gray-300);}
+  .title-input{border:none;font-size:15px;font-weight:700;
+    font-family:'Noto Sans KR',sans-serif;color:var(--gray-900);
+    outline:none;background:transparent;cursor:pointer;
+    min-width:100px;max-width:200px;
+    border-bottom:1.5px solid transparent;transition:border-color 0.2s;
+    padding-bottom:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .title-input:focus{border-bottom-color:var(--green);cursor:text;}
+  .header-right{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+  .stats-badge{font-size:12px;color:var(--gray-600);background:var(--gray-100);
+    border:1px solid var(--gray-200);border-radius:20px;padding:3px 10px;white-space:nowrap;}
+  .search-input{border:1.5px solid var(--gray-300);border-radius:20px;
+    padding:4px 12px 4px 28px;font-size:12px;font-family:'Noto Sans KR',sans-serif;
+    outline:none;width:160px;transition:border-color 0.2s,width 0.2s;
+    background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23ADB5BD' stroke-width='2.5'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 9px center;}
+  .search-input:focus{border-color:var(--green);width:200px;}
+  .search-input::placeholder{color:var(--gray-400);}
 
-  body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: var(--gray-100);
-    color: var(--gray-900);
-    min-height: 100vh;
-  }
+  /* 버튼 */
+  .btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;
+    border-radius:var(--radius);font-size:12px;font-family:'Noto Sans KR',sans-serif;
+    font-weight:500;cursor:pointer;border:1.5px solid var(--gray-300);
+    background:#fff;color:var(--gray-800);transition:all 0.15s;white-space:nowrap;}
+  .btn:hover{background:var(--gray-50);border-color:var(--gray-400);}
+  .btn:active{transform:scale(0.97);}
+  .btn-primary{background:var(--green);color:#fff;border-color:var(--green);}
+  .btn-primary:hover{background:var(--green-dark);border-color:var(--green-dark);}
+  .btn-blue{background:var(--blue);color:#fff;border-color:var(--blue);}
+  .btn-blue:hover{background:var(--blue-dark);border-color:var(--blue-dark);}
+  .btn-danger{background:var(--red);color:#fff;border-color:var(--red);}
+  .btn-danger:hover{background:var(--red-dark);border-color:var(--red-dark);}
+  .btn-sm{padding:4px 9px;font-size:11px;}
+  .btn-icon{padding:6px 9px;}
 
-  /* ── 헤더 ── */
-  header {
-    background: #fff;
-    border-bottom: 1px solid var(--gray-200);
-    padding: 0 1.2rem;
-    height: 52px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: var(--shadow-sm);
-  }
-  .header-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
-  .logo {
-    width: 28px; height: 28px;
-    background: var(--green);
-    border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    color: #fff; font-size: 13px; font-weight: 700;
-    flex-shrink: 0;
-  }
-  .class-tag {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--green-dark);
-    background: var(--green-light);
-    border: 1px solid var(--green-border);
-    border-radius: 20px;
-    padding: 2px 9px;
-    white-space: nowrap;
-    max-width: 130px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex-shrink: 0;
-  }
-  .class-tag.empty { color: var(--gray-500); background: var(--gray-100); border-color: var(--gray-300); }
-  .title-input {
-    border: none;
-    font-size: 15px; font-weight: 700;
-    font-family: 'Noto Sans KR', sans-serif;
-    color: var(--gray-900);
-    outline: none; background: transparent;
-    cursor: pointer;
-    min-width: 120px; max-width: 240px;
-    border-bottom: 1.5px solid transparent;
-    transition: border-color 0.2s;
-    padding-bottom: 1px;
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  }
-  .title-input:focus { border-bottom-color: var(--green); cursor: text; }
-  .header-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-  .stats-badge {
-    font-size: 12px; color: var(--gray-600);
-    background: var(--gray-100);
-    border: 1px solid var(--gray-200);
-    border-radius: 20px;
-    padding: 3px 10px;
-    white-space: nowrap;
-  }
+  /* 앱 바디 */
+  .app-body{display:flex;height:calc(100vh - 52px);}
 
-  /* ── 버튼 ── */
-  .btn {
-    display: inline-flex; align-items: center; gap: 5px;
-    padding: 6px 12px;
-    border-radius: var(--radius);
-    font-size: 12px; font-family: 'Noto Sans KR', sans-serif; font-weight: 500;
-    cursor: pointer;
-    border: 1.5px solid var(--gray-300);
-    background: #fff; color: var(--gray-800);
-    transition: all 0.15s; white-space: nowrap;
-  }
-  .btn:hover { background: var(--gray-50); border-color: var(--gray-400); }
-  .btn:active { transform: scale(0.97); }
-  .btn-primary { background: var(--green); color: #fff; border-color: var(--green); }
-  .btn-primary:hover { background: var(--green-dark); border-color: var(--green-dark); }
-  .btn-blue { background: var(--blue); color: #fff; border-color: var(--blue); }
-  .btn-blue:hover { background: var(--blue-dark); border-color: var(--blue-dark); }
-  .btn-danger { background: var(--red); color: #fff; border-color: var(--red); }
-  .btn-danger:hover { background: var(--red-dark); border-color: var(--red-dark); }
-  .btn-sm { padding: 4px 9px; font-size: 11px; }
-  .btn-icon { padding: 6px 9px; }
-  .btn-ghost { border-color: transparent; background: transparent; }
-  .btn-ghost:hover { background: var(--gray-100); border-color: var(--gray-200); }
+  /* 사이드바 */
+  aside.sidebar{width:var(--sidebar-w);flex-shrink:0;background:#fff;
+    border-right:1px solid var(--gray-200);display:flex;flex-direction:column;
+    overflow:hidden;position:sticky;top:52px;height:calc(100vh - 52px);}
+  .sidebar-header{padding:12px 12px 8px;border-bottom:1px solid var(--gray-100);flex-shrink:0;}
+  .sidebar-header h3{font-size:11px;font-weight:700;color:var(--gray-500);
+    text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;}
+  .class-list{flex:1;overflow-y:auto;padding:4px 0;}
+  .class-group-label{font-size:10px;font-weight:700;color:var(--gray-400);
+    padding:6px 14px 2px;text-transform:uppercase;letter-spacing:0.3px;}
+  .class-item{display:flex;align-items:center;padding:7px 8px 7px 14px;
+    cursor:pointer;gap:6px;transition:background 0.12s;position:relative;}
+  .class-item:hover{background:var(--gray-50);}
+  .class-item.active{background:var(--green-light);}
+  .class-item.active .class-item-name{color:var(--green-dark);font-weight:700;}
+  .class-item-name{flex:1;font-size:12px;color:var(--gray-800);
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .class-item-del{opacity:0;width:20px;height:20px;border-radius:4px;border:none;
+    background:transparent;cursor:pointer;font-size:11px;color:var(--gray-500);
+    display:flex;align-items:center;justify-content:center;
+    transition:all 0.12s;flex-shrink:0;}
+  .class-item:hover .class-item-del{opacity:1;}
+  .class-item-del:hover{background:#fde8e8;color:var(--red);}
 
-  /* ── 앱 바디 (사이드바 + 메인) ── */
-  .app-body {
-    display: flex;
-    height: calc(100vh - 52px);
-  }
+  /* 버전 히스토리 */
+  .version-section{border-top:1px solid var(--gray-200);flex-shrink:0;
+    max-height:38vh;display:flex;flex-direction:column;}
+  .version-section-header{padding:8px 12px 6px;display:flex;align-items:center;
+    justify-content:space-between;flex-shrink:0;}
+  .version-section-header h3{font-size:11px;font-weight:700;color:var(--gray-500);
+    text-transform:uppercase;letter-spacing:0.5px;}
+  .version-list{overflow-y:auto;flex:1;padding-bottom:4px;}
+  .version-item{display:flex;align-items:center;padding:5px 8px 5px 12px;
+    cursor:pointer;gap:5px;transition:background 0.12s;}
+  .version-item:hover{background:var(--gray-50);}
+  .version-item.active-ver{background:var(--blue-light);}
+  .version-item.active-ver .ver-label{color:var(--blue-dark);font-weight:700;}
+  .ver-icon{font-size:13px;flex-shrink:0;}
+  .ver-info{flex:1;min-width:0;}
+  .ver-label{font-size:11px;color:var(--gray-800);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .ver-date{font-size:10px;color:var(--gray-500);}
+  .ver-del{opacity:0;width:18px;height:18px;border-radius:3px;border:none;
+    background:transparent;cursor:pointer;font-size:10px;color:var(--gray-500);
+    display:flex;align-items:center;justify-content:center;
+    transition:all 0.12s;flex-shrink:0;}
+  .version-item:hover .ver-del{opacity:1;}
+  .ver-del:hover{background:#fde8e8;color:var(--red);}
+  .version-empty{font-size:11px;color:var(--gray-400);padding:8px 14px;text-align:center;}
 
-  /* ── 사이드바 ── */
-  aside.sidebar {
-    width: var(--sidebar-w);
-    flex-shrink: 0;
-    background: #fff;
-    border-right: 1px solid var(--gray-200);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    position: sticky;
-    top: 52px;
-    height: calc(100vh - 52px);
-  }
-  .sidebar-header {
-    padding: 12px 12px 8px;
-    border-bottom: 1px solid var(--gray-100);
-    flex-shrink: 0;
-  }
-  .sidebar-header h3 {
-    font-size: 11px; font-weight: 700;
-    color: var(--gray-500);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 8px;
-  }
-  .class-list {
-    flex: 1;
-    overflow-y: auto;
-    padding: 4px 0;
-  }
-  .class-group-label {
-    font-size: 10px; font-weight: 700;
-    color: var(--gray-400);
-    padding: 6px 14px 2px;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-  }
-  .class-item {
-    display: flex; align-items: center;
-    padding: 7px 8px 7px 14px;
-    cursor: pointer;
-    gap: 6px;
-    border-radius: 0;
-    transition: background 0.12s;
-    position: relative;
-  }
-  .class-item:hover { background: var(--gray-50); }
-  .class-item.active { background: var(--green-light); }
-  .class-item.active .class-item-name { color: var(--green-dark); font-weight: 700; }
-  .class-item-name {
-    flex: 1; font-size: 12px; color: var(--gray-800);
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  }
-  .class-item-del {
-    opacity: 0; width: 20px; height: 20px;
-    border-radius: 4px; border: none; background: transparent;
-    cursor: pointer; font-size: 11px; color: var(--gray-500);
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.12s; flex-shrink: 0;
-  }
-  .class-item:hover .class-item-del { opacity: 1; }
-  .class-item-del:hover { background: #fde8e8; color: var(--red); }
-
-  /* 버전 히스토리 섹션 */
-  .version-section {
-    border-top: 1px solid var(--gray-200);
-    flex-shrink: 0;
-    max-height: 38vh;
-    display: flex;
-    flex-direction: column;
-  }
-  .version-section-header {
-    padding: 8px 12px 6px;
-    display: flex; align-items: center; justify-content: space-between;
-    flex-shrink: 0;
-  }
-  .version-section-header h3 {
-    font-size: 11px; font-weight: 700;
-    color: var(--gray-500);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .version-list {
-    overflow-y: auto;
-    flex: 1;
-    padding-bottom: 4px;
-  }
-  .version-item {
-    display: flex; align-items: center;
-    padding: 5px 8px 5px 12px;
-    cursor: pointer; gap: 5px;
-    transition: background 0.12s;
-  }
-  .version-item:hover { background: var(--gray-50); }
-  .version-item.active-ver { background: var(--blue-light); }
-  .version-item.active-ver .ver-label { color: var(--blue-dark); font-weight: 700; }
-  .ver-icon { font-size: 13px; flex-shrink: 0; }
-  .ver-info { flex: 1; min-width: 0; }
-  .ver-label { font-size: 11px; color: var(--gray-800); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .ver-date { font-size: 10px; color: var(--gray-500); }
-  .ver-del {
-    opacity: 0; width: 18px; height: 18px;
-    border-radius: 3px; border: none; background: transparent;
-    cursor: pointer; font-size: 10px; color: var(--gray-500);
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.12s; flex-shrink: 0;
-  }
-  .version-item:hover .ver-del { opacity: 1; }
-  .ver-del:hover { background: #fde8e8; color: var(--red); }
-  .version-empty {
-    font-size: 11px; color: var(--gray-400);
-    padding: 8px 14px; text-align: center;
-  }
-
-  /* ── 메인 콘텐츠 ── */
-  .main-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* 반 미선택 플레이스홀더 */
-  #noClassPlaceholder {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    color: var(--gray-500);
-    padding: 2rem;
-  }
-  #noClassPlaceholder .ph-icon { font-size: 48px; }
-  #noClassPlaceholder .ph-title { font-size: 15px; font-weight: 700; color: var(--gray-700); }
-  #noClassPlaceholder .ph-sub { font-size: 13px; text-align: center; line-height: 1.6; }
-
-  /* 반 선택 후 교실 영역 */
-  #classroomArea {
-    display: none;
-    flex-direction: column;
-    flex: 1;
-    padding: 1.25rem 1.5rem 2rem;
-  }
-  #classroomArea.visible { display: flex; }
+  /* 메인 */
+  .main-content{flex:1;overflow-y:auto;display:flex;flex-direction:column;}
+  #noClassPlaceholder{flex:1;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:12px;
+    color:var(--gray-500);padding:2rem;}
+  #noClassPlaceholder .ph-icon{font-size:48px;}
+  #noClassPlaceholder .ph-title{font-size:15px;font-weight:700;color:var(--gray-700);}
+  #noClassPlaceholder .ph-sub{font-size:13px;text-align:center;line-height:1.6;}
+  #classroomArea{display:none;flex-direction:column;flex:1;padding:1.25rem 1.5rem 2rem;}
+  #classroomArea.visible{display:flex;}
 
   /* 뷰 모드 배너 */
-  .view-mode-bar {
-    display: none;
-    align-items: center;
-    gap: 10px;
-    background: var(--blue-light);
-    border: 1.5px solid var(--blue);
-    border-radius: var(--radius);
-    padding: 8px 14px;
-    margin-bottom: 14px;
-    font-size: 12px;
-    color: var(--blue-dark);
-    font-weight: 600;
-  }
-  .view-mode-bar.visible { display: flex; }
-  .view-mode-bar .vmb-label { flex: 1; }
+  .view-mode-bar{display:none;align-items:center;gap:10px;
+    background:var(--blue-light);border:1.5px solid var(--blue);
+    border-radius:var(--radius);padding:8px 14px;margin-bottom:14px;
+    font-size:12px;color:var(--blue-dark);font-weight:600;}
+  .view-mode-bar.visible{display:flex;}
+  .view-mode-bar .vmb-label{flex:1;}
 
   /* 툴바 */
-  .toolbar {
-    display: flex; gap: 7px; flex-wrap: wrap;
-    margin-bottom: 1rem;
-    align-items: center;
-  }
-  .toolbar-sep { width: 1px; height: 22px; background: var(--gray-200); margin: 0 2px; }
-  .btn-swap { border-color: var(--orange); color: var(--orange); }
-  .btn-swap:hover { background: #fff3e0; }
-  .btn-swap.active { background: var(--orange); color: #fff; border-color: var(--orange); }
+  .toolbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:1rem;align-items:center;}
+  .toolbar-sep{width:1px;height:22px;background:var(--gray-200);margin:0 2px;}
+  .btn-swap{border-color:var(--orange);color:var(--orange);}
+  .btn-swap:hover{background:#fff3e0;}
+  .btn-swap.active{background:var(--orange);color:#fff;border-color:var(--orange);}
 
-  .legend {
-    display: flex; gap: 12px; margin-bottom: 1rem;
-    font-size: 11px; color: var(--gray-600);
-    align-items: center; flex-wrap: wrap;
-  }
-  .legend-item { display: flex; align-items: center; gap: 4px; }
-  .legend-dot {
-    width: 13px; height: 13px;
-    border-radius: 3px; border: 1px solid var(--gray-300);
-    flex-shrink: 0;
-  }
+  /* 드롭다운 */
+  .dropdown-wrap{position:relative;}
+  .dropdown-menu{display:none;position:absolute;top:calc(100% + 4px);left:0;
+    background:#fff;border:1.5px solid var(--gray-200);border-radius:var(--radius);
+    box-shadow:var(--shadow-md);z-index:150;min-width:160px;overflow:hidden;}
+  .dropdown-menu.open{display:block;}
+  .dropdown-menu button{display:flex;width:100%;padding:9px 14px;
+    font-size:12px;font-family:'Noto Sans KR',sans-serif;
+    background:none;border:none;cursor:pointer;gap:7px;
+    align-items:center;color:var(--gray-800);white-space:nowrap;}
+  .dropdown-menu button:hover{background:var(--gray-50);}
 
-  /* ── 교실 ── */
-  .classroom-wrap {
-    background: #fff;
-    border-radius: var(--radius-lg);
-    border: 2px solid var(--gray-200);
-    padding: 1.5rem;
-    box-shadow: var(--shadow-sm);
-    transition: border-color 0.2s;
-  }
-  .classroom-wrap.swap-mode { border-color: var(--orange); }
-  .classroom { display: flex; flex-direction: column; gap: 24px; }
-  .row-pair { display: flex; gap: 32px; align-items: flex-start; }
-  .spacer { flex: 1; }
+  /* 범례 */
+  .legend{display:flex;gap:12px;margin-bottom:1rem;font-size:11px;
+    color:var(--gray-600);align-items:center;flex-wrap:wrap;}
+  .legend-item{display:flex;align-items:center;gap:4px;}
+  .legend-dot{width:13px;height:13px;border-radius:3px;
+    border:1px solid var(--gray-300);flex-shrink:0;}
+
+  /* 교실 */
+  .classroom-wrap{background:#fff;border-radius:var(--radius-lg);
+    border:2px solid var(--gray-200);padding:1.5rem;
+    box-shadow:var(--shadow-sm);transition:border-color 0.2s;}
+  .classroom-wrap.swap-mode{border-color:var(--orange);}
+  .classroom{display:grid;grid-template-columns:auto auto;column-gap:40px;row-gap:24px;justify-content:center;}
+  .row-pair{display:contents;}
+  .spacer{}
 
   /* 모둠 */
-  .group {
-    display: inline-flex; flex-direction: column;
-    border: 2px solid var(--gray-300);
-    border-radius: 4px;
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
-  }
-  .desk-row { display: flex; }
+  .group{display:inline-flex;flex-direction:column;
+    border:2px solid var(--gray-300);border-radius:4px;
+    overflow:hidden;box-shadow:var(--shadow-sm);}
+  .desk-row{display:flex;}
   .desk-row:not(:last-child) .num-cell,
-  .desk-row:not(:last-child) .name-cell { border-bottom: 1px solid var(--gray-200); }
-  .num-cell {
-    width: 30px; height: 38px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 700;
-    color: var(--gray-500);
-    background: var(--gray-50);
-    border-right: 1px solid var(--gray-200);
-    flex-shrink: 0;
-  }
-  .name-cell {
-    width: 92px; height: 38px;
-    display: flex; align-items: center;
-    padding: 0 6px;
-    font-size: 11px; font-weight: 500;
-    color: var(--gray-800);
-    background: #fff;
-    cursor: pointer;
-    transition: background 0.12s;
-    overflow: hidden; white-space: nowrap;
-    border-right: 1px solid var(--gray-200);
-    gap: 3px;
-  }
-  .name-cell:last-child { border-right: none; }
-  .name-cell:hover { background: var(--gray-50); }
-  .name-cell.occupied { background: var(--green-light); }
-  .name-cell.occupied:hover { background: #c8edd8; }
-  .name-cell.locked { background: var(--yellow); }
-  .name-cell.locked:hover { background: #fff0b3; }
-  /* 교체 모드 */
-  .name-cell.swap-first {
-    background: #fff3e0 !important;
-    outline: 2px solid var(--orange);
-    outline-offset: -2px;
-  }
-  .name-cell.swap-candidate:hover { background: #fce8d3 !important; }
-  .name-text { flex: 1; overflow: hidden; text-overflow: ellipsis; }
-  .lock-badge { font-size: 9px; color: var(--yellow-border); flex-shrink: 0; }
+  .desk-row:not(:last-child) .name-cell{border-bottom:1px solid var(--gray-200);}
+  .num-cell{width:30px;height:38px;display:flex;align-items:center;
+    justify-content:center;font-size:11px;font-weight:700;
+    color:var(--gray-500);background:var(--gray-50);
+    border-right:1px solid var(--gray-200);flex-shrink:0;}
+  .name-cell{width:92px;height:38px;display:flex;align-items:center;
+    padding:0 5px;font-size:11px;font-weight:500;color:var(--gray-800);
+    background:#fff;cursor:pointer;transition:background 0.12s;
+    overflow:hidden;white-space:nowrap;
+    border-right:1px solid var(--gray-200);gap:2px;}
+  .name-cell:last-child{border-right:none;}
+  .name-cell:hover{background:var(--gray-50);}
+  .name-cell.occupied{background:var(--green-light);}
+  .name-cell.occupied:hover{background:#c8edd8;}
+  .name-cell.locked{background:var(--yellow);}
+  .name-cell.locked:hover{background:#fff0b3;}
+  .name-cell.swap-first{background:#fff3e0!important;outline:2px solid var(--orange);outline-offset:-2px;}
+  .name-cell.swap-candidate:hover{background:#fce8d3!important;}
+  .name-cell.search-match{background:#fffde7!important;outline:2px solid #f9a825;outline-offset:-2px;}
+
+  /* 좌석 내용 */
+  .name-text{flex:1;display:flex;flex-direction:column;overflow:hidden;gap:0;}
+  .stu-name{font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .stu-num{font-size:9px;color:var(--gray-500);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .lock-badge{font-size:9px;color:var(--yellow-border);flex-shrink:0;}
+  .memo-badge{font-size:9px;flex-shrink:0;cursor:help;}
 
   /* 교탁 */
-  .teacher-area {
-    margin-top: 1.25rem; text-align: center;
-    padding: 9px;
-    border: 1.5px dashed var(--gray-300);
-    border-radius: var(--radius);
-    font-size: 12px; color: var(--gray-500); font-weight: 500;
-  }
+  .teacher-area{margin-top:1.25rem;text-align:center;padding:9px;
+    border:1.5px dashed var(--gray-300);border-radius:var(--radius);
+    font-size:12px;color:var(--gray-500);font-weight:500;}
 
-  /* ── 모달 ── */
-  .overlay {
-    display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,0.4);
-    z-index: 200;
-    align-items: center; justify-content: center;
-    padding: 1rem;
+  /* 모달 */
+  .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);
+    z-index:200;align-items:center;justify-content:center;padding:1rem;}
+  .overlay.active{display:flex;}
+  .modal{background:#fff;border-radius:var(--radius-lg);padding:1.4rem;
+    width:100%;max-width:320px;box-shadow:var(--shadow-lg);animation:modalIn 0.18s ease;}
+  @keyframes modalIn{
+    from{opacity:0;transform:translateY(8px) scale(0.97);}
+    to{opacity:1;transform:translateY(0) scale(1);}
   }
-  .overlay.active { display: flex; }
-  .modal {
-    background: #fff;
-    border-radius: var(--radius-lg);
-    padding: 1.4rem;
-    width: 100%; max-width: 320px;
-    box-shadow: var(--shadow-lg);
-    animation: modalIn 0.18s ease;
-  }
-  @keyframes modalIn {
-    from { opacity: 0; transform: translateY(8px) scale(0.97); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
-  }
-  .modal-title { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
-  .modal-sub { font-size: 12px; color: var(--gray-500); margin-bottom: 12px; }
-  .modal label { font-size: 12px; color: var(--gray-600); font-weight: 500; display: block; margin-bottom: 4px; }
-  .modal input, .modal select, .modal textarea {
-    width: 100%; padding: 7px 10px;
-    border: 1.5px solid var(--gray-300);
-    border-radius: var(--radius);
-    font-size: 13px; font-family: 'Noto Sans KR', sans-serif;
-    color: var(--gray-900); background: #fff;
-    outline: none; margin-bottom: 10px;
-    transition: border-color 0.15s;
-  }
-  .modal input:focus, .modal select:focus, .modal textarea:focus { border-color: var(--green); }
-  .modal textarea { resize: none; height: 150px; font-size: 12px; }
-  .lock-row {
-    display: flex; align-items: center; gap: 7px;
-    margin-bottom: 12px; cursor: pointer;
-  }
-  .lock-row input[type=checkbox] { width: 15px; height: 15px; cursor: pointer; accent-color: var(--green); }
-  .lock-row span { font-size: 12px; color: var(--gray-600); }
-  .modal-footer { display: flex; gap: 7px; justify-content: flex-end; }
-  .parse-preview { font-size: 11px; color: var(--green-dark); margin-bottom: 8px; min-height: 16px; }
-  .hint {
-    font-size: 11px; color: var(--gray-500);
-    line-height: 1.6; margin-bottom: 10px;
-    background: var(--gray-50);
-    border-radius: var(--radius);
-    padding: 8px 10px;
-    border: 1px solid var(--gray-200);
-  }
+  .modal-title{font-size:15px;font-weight:700;margin-bottom:2px;}
+  .modal-sub{font-size:12px;color:var(--gray-500);margin-bottom:12px;}
+  .modal label{font-size:12px;color:var(--gray-600);font-weight:500;display:block;margin-bottom:4px;}
+  .modal input,.modal select,.modal textarea{
+    width:100%;padding:7px 10px;border:1.5px solid var(--gray-300);
+    border-radius:var(--radius);font-size:13px;font-family:'Noto Sans KR',sans-serif;
+    color:var(--gray-900);background:#fff;outline:none;margin-bottom:10px;
+    transition:border-color 0.15s;}
+  .modal input:focus,.modal select:focus,.modal textarea:focus{border-color:var(--green);}
+  .modal textarea{resize:vertical;min-height:60px;max-height:120px;font-size:12px;}
+  .lock-row{display:flex;align-items:center;gap:7px;margin-bottom:12px;cursor:pointer;}
+  .lock-row input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--green);}
+  .lock-row span{font-size:12px;color:var(--gray-600);}
+  .modal-footer{display:flex;gap:7px;justify-content:flex-end;}
+  .parse-preview{font-size:11px;color:var(--green-dark);margin-bottom:8px;min-height:16px;}
+  .hint{font-size:11px;color:var(--gray-500);line-height:1.6;margin-bottom:10px;
+    background:var(--gray-50);border-radius:var(--radius);padding:8px 10px;
+    border:1px solid var(--gray-200);}
+  .add-class-row{display:flex;gap:8px;}
+  .add-class-row .modal-field{flex:1;}
+  .modal-field label{font-size:12px;color:var(--gray-600);font-weight:500;display:block;margin-bottom:4px;}
+  .modal-field select,.modal-field input{
+    width:100%;padding:7px 10px;border:1.5px solid var(--gray-300);
+    border-radius:var(--radius);font-size:13px;font-family:'Noto Sans KR',sans-serif;
+    color:var(--gray-900);background:#fff;outline:none;margin-bottom:10px;
+    transition:border-color 0.15s;}
+  .modal-field select:focus,.modal-field input:focus{border-color:var(--green);}
 
-  /* 반 추가 모달 셀렉트 rows */
-  .add-class-row { display: flex; gap: 8px; }
-  .add-class-row .modal-field { flex: 1; }
-  .modal-field label { font-size: 12px; color: var(--gray-600); font-weight: 500; display: block; margin-bottom: 4px; }
-  .modal-field select, .modal-field input {
-    width: 100%; padding: 7px 10px;
-    border: 1.5px solid var(--gray-300);
-    border-radius: var(--radius);
-    font-size: 13px; font-family: 'Noto Sans KR', sans-serif;
-    color: var(--gray-900); background: #fff;
-    outline: none; margin-bottom: 10px;
-    transition: border-color 0.15s;
-  }
-  .modal-field select:focus, .modal-field input:focus { border-color: var(--green); }
+  /* 색상 선택 모달 */
+  .color-group-row{margin-bottom:12px;}
+  .color-group-label{font-size:12px;font-weight:600;color:var(--gray-700);margin-bottom:6px;}
+  .color-swatches{display:flex;gap:6px;flex-wrap:wrap;}
+  .color-swatch{width:26px;height:26px;border-radius:50%;border:2px solid transparent;
+    cursor:pointer;transition:transform 0.1s,border-color 0.1s;flex-shrink:0;}
+  .color-swatch:hover{transform:scale(1.15);}
+  .color-swatch.selected{border-color:var(--gray-900);}
 
-  /* ── 토스트 ── */
-  #toast {
-    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-    background: var(--gray-900); color: #fff;
-    padding: 10px 18px; border-radius: 24px;
-    font-size: 13px; font-weight: 500;
-    z-index: 9999;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.25s;
-    white-space: nowrap;
-    max-width: 90vw;
-  }
-  #toast.show { opacity: 1; }
+  /* 토스트 */
+  #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+    background:var(--gray-900);color:#fff;padding:10px 18px;border-radius:24px;
+    font-size:13px;font-weight:500;z-index:9999;opacity:0;pointer-events:none;
+    transition:opacity 0.25s;white-space:nowrap;max-width:90vw;}
+  #toast.show{opacity:1;}
 
-  /* ── 인쇄 ── */
+  /* 인쇄용 헤더 (화면에서는 숨김) */
+  #printHeader{display:none;}
+
+  /* 인쇄 */
   @media print {
-    header, aside.sidebar, .toolbar, .legend, .overlay, .view-mode-bar, #toast { display: none !important; }
-    .app-body { height: auto; }
-    .main-content { overflow: visible; }
-    #classroomArea { padding: 0; }
-    body { background: #fff; }
-    .classroom-wrap { border: none; box-shadow: none; padding: 0; }
-    .name-cell { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    header,aside.sidebar,.toolbar,.legend,.overlay,.view-mode-bar,#toast{display:none!important;}
+    .app-body{height:auto;}
+    .main-content{overflow:visible;}
+    #classroomArea{padding:0;}
+    body{background:#fff;}
+    .classroom-wrap{border:none;box-shadow:none;padding:0;}
+    .name-cell{-webkit-print-color-adjust:exact;print-color-adjust:exact;height:48px;
+      flex-direction:column;justify-content:center;align-items:center;padding:2px 3px;}
+    .name-text{flex-direction:column;align-items:center;justify-content:center;gap:1px;}
+    .stu-name{font-size:13px;font-weight:700;white-space:normal;text-align:center;text-overflow:unset;}
+    .stu-num{font-size:9px;color:#666;white-space:normal;text-align:center;}
+    .num-cell{height:48px;}
+    #printHeader{display:block;margin-bottom:1rem;padding-bottom:0.5rem;
+      border-bottom:1.5px solid #333;}
+    .print-title{font-size:18px;font-weight:700;margin-bottom:2px;}
+    .print-meta{font-size:11px;color:#666;}
   }
 </style>
 </head>
 <body>
 
-<!-- 헤더 -->
 <header>
   <div class="header-left">
     <div class="logo">좌</div>
@@ -500,24 +299,20 @@
     <input class="title-input" id="classTitle" value="좌석 배치표" spellcheck="false">
   </div>
   <div class="header-right">
+    <input type="search" class="search-input" id="searchInput" placeholder="학생 검색..." oninput="onSearch(this.value)" onkeydown="if(event.key==='Escape'){this.value='';onSearch('');}">
     <span class="stats-badge" id="stats">0 / 30명</span>
     <button class="btn btn-blue" onclick="openSaveVersionModal()" id="btnSaveVer" style="display:none">💾 버전 저장</button>
     <button class="btn" onclick="printWithFilename()">🖨️ 인쇄</button>
   </div>
 </header>
 
-<!-- 앱 바디 -->
 <div class="app-body">
-
-  <!-- 사이드바 -->
   <aside class="sidebar">
     <div class="sidebar-header">
       <h3>반 목록</h3>
       <button class="btn btn-primary" style="width:100%" onclick="openAddClassModal()">+ 새 반 추가</button>
     </div>
     <div class="class-list" id="classList"></div>
-
-    <!-- 버전 히스토리 -->
     <div class="version-section" id="versionSection" style="display:none">
       <div class="version-section-header">
         <h3>📅 버전 히스토리</h3>
@@ -526,64 +321,60 @@
     </div>
   </aside>
 
-  <!-- 메인 -->
   <div class="main-content">
-
-    <!-- 반 미선택 -->
     <div id="noClassPlaceholder">
       <div class="ph-icon">🏫</div>
       <div class="ph-title">반을 선택해 주세요</div>
       <div class="ph-sub">왼쪽에서 반을 선택하거나<br>새 반을 추가하세요</div>
     </div>
 
-    <!-- 교실 영역 -->
     <div id="classroomArea">
-
-      <!-- 뷰 모드 배너 -->
       <div class="view-mode-bar" id="viewModeBanner">
         <span class="vmb-label" id="viewModeBannerText">📖 과거 버전 보기 모드</span>
         <button class="btn btn-blue btn-sm" onclick="restoreVersion()">이 버전으로 복원</button>
         <button class="btn btn-sm" onclick="exitViewMode()">현재로 돌아가기</button>
       </div>
 
-      <!-- 툴바 -->
       <div class="toolbar">
         <button class="btn btn-primary" onclick="openBulk()">📋 명단 붙여넣기</button>
         <button class="btn" onclick="randomAssign()">🔀 랜덤 배치</button>
+        <button class="btn" id="btnUndo" onclick="undo()" title="Ctrl+Z">↩ 되돌리기</button>
         <div class="toolbar-sep"></div>
         <button class="btn btn-swap" id="btnSwap" onclick="toggleSwapMode()">⇄ 좌석 교체</button>
+        <button class="btn" onclick="openColorModal()">🎨 모둠 색상</button>
         <div class="toolbar-sep"></div>
+        <div class="dropdown-wrap" id="exportWrap">
+          <button class="btn" onclick="toggleExportMenu()">📥 내보내기 ▾</button>
+          <div class="dropdown-menu" id="exportMenu">
+            <button onclick="exportCSV();closeExportMenu()">📊 CSV 다운로드</button>
+          </div>
+        </div>
         <button class="btn btn-danger" onclick="clearAll()">🗑️ 초기화</button>
       </div>
 
       <div class="legend">
-        <div class="legend-item">
-          <div class="legend-dot" style="background:var(--green-light);border-color:var(--green-border)"></div>배치됨
-        </div>
-        <div class="legend-item">
-          <div class="legend-dot" style="background:var(--yellow);border-color:var(--yellow-border)"></div>고정 (랜덤 제외)
-        </div>
-        <div class="legend-item">
-          <div class="legend-dot" style="background:#fff"></div>비어있음
-        </div>
-        <div class="legend-item" id="legendSwap" style="display:none">
-          <div class="legend-dot" style="background:#fff3e0;border-color:var(--orange)"></div>교체 선택됨
-        </div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--green-light);border-color:var(--green-border)"></div>배치됨</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--yellow);border-color:var(--yellow-border)"></div>고정</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#fff"></div>비어있음</div>
+        <div class="legend-item" id="legendSwap" style="display:none"><div class="legend-dot" style="background:#fff3e0;border-color:var(--orange)"></div>교체 선택</div>
+        <div class="legend-item" id="legendSearch" style="display:none"><div class="legend-dot" style="background:#fffde7;border-color:#f9a825"></div>검색 결과</div>
       </div>
 
       <div class="classroom-wrap" id="classroomWrap">
+        <div id="printHeader">
+          <div class="print-title" id="printClassName"></div>
+          <div class="print-meta" id="printDate"></div>
+        </div>
         <div class="classroom" id="classroom"></div>
         <div class="teacher-area">🖥️ 교사용 컴퓨터</div>
       </div>
+    </div>
+  </div>
+</div>
 
-    </div><!-- /classroomArea -->
-  </div><!-- /main-content -->
-</div><!-- /app-body -->
-
-<!-- 토스트 -->
 <div id="toast"></div>
 
-<!-- ── 모달: 좌석 클릭 ── -->
+<!-- 좌석 모달 -->
 <div class="overlay" id="seatOverlay">
   <div class="modal">
     <div class="modal-title"><span id="modalSeatNum"></span>번 좌석</div>
@@ -591,9 +382,9 @@
     <label>학번 + 이름 직접 입력</label>
     <input id="modalInput" placeholder="예: 20101 홍길동" maxlength="30">
     <label>명단에서 선택</label>
-    <select id="modalSelect">
-      <option value="">— 선택 —</option>
-    </select>
+    <select id="modalSelect"><option value="">— 선택 —</option></select>
+    <label>메모 (특이사항)</label>
+    <textarea id="modalMemo" placeholder="건강 정보, 좌석 요청 등..."></textarea>
     <label class="lock-row">
       <input type="checkbox" id="lockCheck">
       <span>🔒 이 좌석 고정 (랜덤 배치에서 제외)</span>
@@ -606,16 +397,12 @@
   </div>
 </div>
 
-<!-- ── 모달: 명단 붙여넣기 ── -->
+<!-- 명단 모달 -->
 <div class="overlay" id="bulkOverlay">
   <div class="modal" style="max-width:360px">
     <div class="modal-title">📋 학생 명단 붙여넣기</div>
     <div class="modal-sub">엑셀에서 복사 후 붙여넣기</div>
-    <div class="hint">
-      엑셀에서 <b>학번</b>, <b>이름</b> 두 열을 드래그 선택 → Ctrl+C<br>
-      아래 칸에 Ctrl+V로 붙여넣기 하세요.<br>
-      탭·쉼표·공백 구분 모두 자동 인식합니다.
-    </div>
+    <div class="hint">엑셀에서 <b>학번</b>, <b>이름</b> 두 열을 드래그 선택 → Ctrl+C<br>아래 칸에 Ctrl+V로 붙여넣기 하세요.<br>탭·쉼표·공백 구분 모두 자동 인식합니다.</div>
     <textarea id="bulkInput" placeholder="20101	홍길동&#10;20102	김영희&#10;20103	이철수&#10;..."></textarea>
     <div class="parse-preview" id="parsePreview"></div>
     <div class="modal-footer">
@@ -625,22 +412,15 @@
   </div>
 </div>
 
-<!-- ── 모달: 새 반 추가 ── -->
+<!-- 새 반 추가 모달 -->
 <div class="overlay" id="addClassOverlay">
   <div class="modal">
     <div class="modal-title">🏫 새 반 추가</div>
     <div class="modal-sub">연도, 학기, 반 이름을 입력하세요</div>
     <div class="add-class-row">
-      <div class="modal-field">
-        <label>연도</label>
-        <select id="acYear"></select>
-      </div>
-      <div class="modal-field">
-        <label>학기</label>
-        <select id="acSem">
-          <option value="1">1학기</option>
-          <option value="2">2학기</option>
-        </select>
+      <div class="modal-field"><label>연도</label><select id="acYear"></select></div>
+      <div class="modal-field"><label>학기</label>
+        <select id="acSem"><option value="1">1학기</option><option value="2">2학기</option></select>
       </div>
     </div>
     <label>반 이름</label>
@@ -652,7 +432,7 @@
   </div>
 </div>
 
-<!-- ── 모달: 버전 저장 ── -->
+<!-- 버전 저장 모달 -->
 <div class="overlay" id="saveVersionOverlay">
   <div class="modal">
     <div class="modal-title">💾 버전 저장</div>
@@ -666,76 +446,73 @@
   </div>
 </div>
 
+<!-- 모둠 색상 모달 -->
+<div class="overlay" id="colorPickerOverlay">
+  <div class="modal" style="max-width:380px">
+    <div class="modal-title">🎨 모둠 색상 설정</div>
+    <div class="modal-sub">각 모둠의 테두리·번호 배경 색상을 선택하세요</div>
+    <div id="colorPickerGroups"></div>
+    <div class="modal-footer">
+      <button class="btn" onclick="resetAllColors()">초기화</button>
+      <button class="btn btn-primary" onclick="closeColorModal()">완료</button>
+    </div>
+  </div>
+</div>
+
 <script>
-// ══════════════════════════════════════════════
-//  DB / localStorage
-// ══════════════════════════════════════════════
+// ── DB ──
 const DB_KEY = 'seating_app_v1';
-
 function loadDB() {
-  try {
-    const raw = localStorage.getItem(DB_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch(e) {}
-  return { classes: [], data: {}, lastActiveClassId: null };
+  try { const r = localStorage.getItem(DB_KEY); if (r) return JSON.parse(r); } catch(e) {}
+  return { classes:[], data:{}, lastActiveClassId:null };
 }
-
-function saveDB() {
-  try {
-    localStorage.setItem(DB_KEY, JSON.stringify(db));
-  } catch(e) {}
-}
-
+function saveDB() { try { localStorage.setItem(DB_KEY, JSON.stringify(db)); } catch(e) {} }
 let db = loadDB();
 
-function getClassData(classId) {
-  if (!db.data[classId]) {
-    db.data[classId] = {
-      current: { seats: {}, roster: [], title: '' },
-      versions: []
-    };
-  }
-  return db.data[classId];
+function getClassData(id) {
+  if (!db.data[id]) db.data[id] = { current:{seats:{},roster:[],title:'',groupColors:{}}, versions:[] };
+  if (!db.data[id].current.groupColors) db.data[id].current.groupColors = {};
+  return db.data[id];
 }
 
-// ══════════════════════════════════════════════
-//  상태 변수
-// ══════════════════════════════════════════════
+// ── 상수 / 상태 ──
 const ROW_PAIRS = [
-  { left: null,            right: [[27,26,25],[28,29,30]] },
-  { left: [[22,23,24],[21,20,19]], right: [[16,17,18],[15,14,13]] },
-  { left: [[12,11,10],[7,8,9]],   right: [[4,5,6],[3,2,1]] }
+  { left:null, right:[[27,26,25],[28,29,30]] },
+  { left:[[22,23,24],[21,20,19]], right:[[16,17,18],[15,14,13]] },
+  { left:[[12,11,10],[7,8,9]],   right:[[4,5,6],[3,2,1]] }
+];
+const GROUP_LABELS = ['뒤쪽','중간 왼쪽','중간 오른쪽','앞 왼쪽','앞 오른쪽'];
+const COLOR_PRESETS = [
+  { key:'default', label:'기본',  bg:null,      border:null,      dot:'#dee2e6' },
+  { key:'green',   label:'초록',  bg:'#d4f1e3', border:'#5DCAA5', dot:'#5DCAA5' },
+  { key:'blue',    label:'파랑',  bg:'#dbeafe', border:'#60a5fa', dot:'#60a5fa' },
+  { key:'purple',  label:'보라',  bg:'#ede9fe', border:'#a78bfa', dot:'#a78bfa' },
+  { key:'orange',  label:'주황',  bg:'#ffedd5', border:'#fb923c', dot:'#fb923c' },
+  { key:'pink',    label:'분홍',  bg:'#fce7f3', border:'#f472b6', dot:'#f472b6' },
+  { key:'yellow',  label:'노랑',  bg:'#fef9c3', border:'#facc15', dot:'#facc15' },
 ];
 
-let activeClassId = null;   // 현재 선택된 반
-let seats = {};             // { seatNum: { text, locked } }
-let roster = [];            // [{ num, name }]
-let selectedSeatNum = null; // 좌석 모달용
-
-// 뷰 모드 (과거 버전 보기)
+let activeClassId = null;
+let seats = {};
+let roster = [];
+let selectedSeatNum = null;
 let viewingVersionId = null;
 let viewSeats = null;
-
-// 교체 모드
 let swapMode = false;
 let swapFirstSeat = null;
-
-// 자동저장 디바운스
+let searchQuery = '';
+let groupColors = {};      // { groupIdx: 'blue', ... }
+let undoStack = [];        // max 20 snapshots of seats
 let autoSaveTimer = null;
 
-// ══════════════════════════════════════════════
-//  초기화
-// ══════════════════════════════════════════════
+// ── 초기화 ──
 function init() {
   buildLayout();
   fillYearOptions();
   renderClassList();
   const lastId = db.lastActiveClassId;
-  if (lastId && db.classes.find(c => c.id === lastId)) {
-    selectClass(lastId, false);
-  } else {
-    showNoClass();
-  }
+  if (lastId && db.classes.find(c => c.id === lastId)) selectClass(lastId, false);
+  else showNoClass();
 }
 
 function fillYearOptions() {
@@ -743,42 +520,40 @@ function fillYearOptions() {
   const cur = new Date().getFullYear();
   for (let y = cur; y >= cur - 3; y--) {
     const o = document.createElement('option');
-    o.value = y; o.textContent = y + '년';
-    sel.appendChild(o);
+    o.value = y; o.textContent = y + '년'; sel.appendChild(o);
   }
 }
 
-// ══════════════════════════════════════════════
-//  교실 레이아웃 빌드
-// ══════════════════════════════════════════════
+// ── 레이아웃 ──
+let groupEls = []; // DOM refs for the 5 groups, in order
+
 function buildLayout() {
   const cl = document.getElementById('classroom');
   cl.innerHTML = '';
+  groupEls = [];
+  let gIdx = 0;
   ROW_PAIRS.forEach(rp => {
     const pair = document.createElement('div');
     pair.className = 'row-pair';
-    if (rp.left) pair.appendChild(makeGroup(rp.left));
+    if (rp.left) { const g = makeGroup(rp.left, gIdx++); groupEls.push(g); pair.appendChild(g); }
     else { const sp = document.createElement('div'); sp.className = 'spacer'; pair.appendChild(sp); }
-    if (rp.right) pair.appendChild(makeGroup(rp.right));
+    if (rp.right) { const g = makeGroup(rp.right, gIdx++); groupEls.push(g); pair.appendChild(g); }
     else { const sp = document.createElement('div'); sp.className = 'spacer'; pair.appendChild(sp); }
     cl.appendChild(pair);
   });
 }
 
-function makeGroup(rows) {
+function makeGroup(rows, idx) {
   const g = document.createElement('div');
   g.className = 'group';
+  g.dataset.groupIdx = idx;
   rows.forEach(row => {
     const dr = document.createElement('div');
     dr.className = 'desk-row';
     row.forEach((num, ci) => {
-      const nc = document.createElement('div');
-      nc.className = 'num-cell';
-      nc.textContent = num;
-      dr.appendChild(nc);
+      const nc = document.createElement('div'); nc.className = 'num-cell'; nc.textContent = num; dr.appendChild(nc);
       const sc = document.createElement('div');
-      sc.id = 'seat-' + num;
-      sc.className = 'name-cell';
+      sc.id = 'seat-' + num; sc.className = 'name-cell';
       if (ci === row.length - 1) sc.style.borderRight = 'none';
       sc.addEventListener('click', () => onSeatClick(num));
       dr.appendChild(sc);
@@ -789,688 +564,463 @@ function makeGroup(rows) {
 }
 
 function allSeatNums() {
-  const nums = [];
-  ROW_PAIRS.forEach(rp => {
-    [rp.left, rp.right].forEach(g => { if (g) g.forEach(r => r.forEach(n => nums.push(n))); });
-  });
-  return nums;
+  const n = [];
+  ROW_PAIRS.forEach(rp => [rp.left,rp.right].forEach(g => { if(g) g.forEach(r => r.forEach(x => n.push(x))); }));
+  return n;
 }
 
-// ══════════════════════════════════════════════
-//  좌석 렌더링
-// ══════════════════════════════════════════════
+// ── 좌석 렌더링 ──
 function refreshSeat(num) {
   const el = document.getElementById('seat-' + num);
   if (!el) return;
-  const displaySeats = viewSeats || seats;
-  const s = displaySeats[num];
+  const ds = viewSeats || seats;
+  const s = ds[num];
 
   let cls = 'name-cell';
-  if (s) cls += s.locked ? ' locked' : ' occupied';
+  if (s && s.text) {
+    cls += s.locked ? ' locked' : ' occupied';
+    if (searchQuery && s.text.toLowerCase().includes(searchQuery)) cls += ' search-match';
+  }
   if (swapMode && !viewSeats) {
     if (swapFirstSeat === num) cls += ' swap-first';
     else if (swapFirstSeat !== null) cls += ' swap-candidate';
   }
   el.className = cls;
 
-  // 마지막 셀 border-right 복원
+  // border-right fix
   const row = el.parentNode;
-  const cells = row.querySelectorAll('.name-cell');
-  cells.forEach((c, i) => {
-    c.style.borderRight = (i === cells.length - 1) ? 'none' : '';
-  });
+  row.querySelectorAll('.name-cell').forEach((c,i,a) => { c.style.borderRight = i===a.length-1 ? 'none' : ''; });
 
   el.innerHTML = '';
   if (s && s.text) {
-    const nt = document.createElement('span');
-    nt.className = 'name-text';
-    nt.textContent = s.text;
-    el.appendChild(nt);
-    if (s.locked) {
-      const lb = document.createElement('span');
-      lb.className = 'lock-badge';
-      lb.textContent = '🔒';
-      el.appendChild(lb);
+    const spIdx = s.text.indexOf(' ');
+    const stuNum  = spIdx > -1 ? s.text.substring(0, spIdx) : '';
+    const stuName = spIdx > -1 ? s.text.substring(spIdx + 1) : s.text;
+    const nt = document.createElement('span'); nt.className = 'name-text';
+    const nn = document.createElement('span'); nn.className = 'stu-name'; nn.textContent = stuName || stuNum;
+    nt.appendChild(nn);
+    if (stuName && stuNum) {
+      const sn = document.createElement('span'); sn.className = 'stu-num'; sn.textContent = stuNum;
+      nt.appendChild(sn);
     }
+    el.appendChild(nt);
+    if (s.locked) { const lb = document.createElement('span'); lb.className='lock-badge'; lb.textContent='🔒'; el.appendChild(lb); }
+    if (s.memo)   { const mb = document.createElement('span'); mb.className='memo-badge'; mb.textContent='🗒️'; mb.title=s.memo; el.appendChild(mb); }
   }
 }
 
-function refreshAllSeats() {
-  allSeatNums().forEach(n => refreshSeat(n));
-  updateStats();
-}
+function refreshAllSeats() { allSeatNums().forEach(n => refreshSeat(n)); updateStats(); }
 
 function updateStats() {
-  const displaySeats = viewSeats || seats;
-  const count = Object.values(displaySeats).filter(v => v && v.text).length;
-  document.getElementById('stats').textContent = `${count} / 30명`;
+  const ds = viewSeats || seats;
+  const cnt = Object.values(ds).filter(v => v && v.text).length;
+  document.getElementById('stats').textContent = `${cnt} / 30명`;
 }
 
-// ══════════════════════════════════════════════
-//  좌석 클릭 핸들러
-// ══════════════════════════════════════════════
+// ── 검색 ──
+function onSearch(val) {
+  searchQuery = val.toLowerCase().trim();
+  document.getElementById('legendSearch').style.display = searchQuery ? 'flex' : 'none';
+  refreshAllSeats();
+}
+
+// ── Undo ──
+function pushUndo() {
+  undoStack.push(deepClone(seats));
+  if (undoStack.length > 20) undoStack.shift();
+}
+
+function undo() {
+  if (!undoStack.length) { showToast('더 이상 되돌릴 수 없습니다'); return; }
+  seats = undoStack.pop();
+  refreshAllSeats();
+  triggerAutoSave();
+  showToast('↩ 되돌렸습니다');
+}
+
+// ── 좌석 클릭 ──
 function onSeatClick(num) {
-  if (viewSeats) return; // 뷰 모드에서는 편집 불가
-
-  if (swapMode) {
-    handleSwapClick(num);
-  } else {
-    openSeatModal(num);
-  }
+  if (viewSeats) { showToast('📖 보기 모드에서는 편집할 수 없습니다'); return; }
+  if (swapMode) handleSwapClick(num);
+  else openSeatModal(num);
 }
 
-// ══════════════════════════════════════════════
-//  좌석 교체 모드
-// ══════════════════════════════════════════════
+// ── 교체 모드 ──
 function toggleSwapMode() {
-  swapMode = !swapMode;
-  swapFirstSeat = null;
+  swapMode = !swapMode; swapFirstSeat = null;
   const btn = document.getElementById('btnSwap');
   const wrap = document.getElementById('classroomWrap');
   const leg = document.getElementById('legendSwap');
-  if (swapMode) {
-    btn.classList.add('active');
-    wrap.classList.add('swap-mode');
-    leg.style.display = 'flex';
-    showToast('교체 모드 ON — 바꿀 두 좌석을 순서대로 클릭하세요');
-  } else {
-    btn.classList.remove('active');
-    wrap.classList.remove('swap-mode');
-    leg.style.display = 'none';
-    showToast('교체 모드 OFF');
-  }
+  if (swapMode) { btn.classList.add('active'); wrap.classList.add('swap-mode'); leg.style.display='flex'; showToast('교체 모드 ON — 바꿀 두 좌석을 클릭하세요'); }
+  else          { btn.classList.remove('active'); wrap.classList.remove('swap-mode'); leg.style.display='none'; showToast('교체 모드 OFF'); }
   refreshAllSeats();
 }
 
 function handleSwapClick(num) {
   if (swapFirstSeat === null) {
-    swapFirstSeat = num;
-    refreshSeat(num);
-    const s = seats[num];
-    const name = s && s.text ? s.text : '(빈 좌석)';
-    showToast(`${name} 선택됨 — 교체할 좌석을 클릭하세요`);
+    swapFirstSeat = num; refreshSeat(num);
+    showToast(`${seats[num]?.text || '(빈 좌석)'} 선택됨 — 교체할 좌석 클릭`);
   } else {
-    if (swapFirstSeat === num) {
-      swapFirstSeat = null;
-      refreshAllSeats();
-      showToast('선택 취소');
-      return;
-    }
-    // 실제 교체
-    const a = swapFirstSeat;
-    const b = num;
-    const tmp = seats[a] ? { ...seats[a] } : undefined;
-    if (seats[b]) seats[a] = { ...seats[b] };
-    else delete seats[a];
-    if (tmp) seats[b] = tmp;
-    else delete seats[b];
-
+    if (swapFirstSeat === num) { swapFirstSeat = null; refreshAllSeats(); showToast('선택 취소'); return; }
+    pushUndo();
+    const a = swapFirstSeat, b = num;
+    const tmp = seats[a] ? {...seats[a]} : undefined;
+    if (seats[b]) seats[a] = {...seats[b]}; else delete seats[a];
+    if (tmp) seats[b] = tmp; else delete seats[b];
     swapFirstSeat = null;
-    refreshSeat(a);
-    refreshSeat(b);
-    updateStats();
-    triggerAutoSave();
+    refreshSeat(a); refreshSeat(b); updateStats(); triggerAutoSave();
     showToast('✅ 좌석이 교체되었습니다');
   }
 }
 
-// ══════════════════════════════════════════════
-//  좌석 모달
-// ══════════════════════════════════════════════
+// ── 좌석 모달 ──
 function openSeatModal(num) {
   if (!activeClassId) return;
   selectedSeatNum = num;
   document.getElementById('modalSeatNum').textContent = num;
   const s = seats[num];
   document.getElementById('modalInput').value = s ? s.text : '';
+  document.getElementById('modalMemo').value = s ? (s.memo || '') : '';
   document.getElementById('lockCheck').checked = s ? !!s.locked : false;
-
   const sel = document.getElementById('modalSelect');
   sel.innerHTML = '<option value="">— 명단에서 선택 —</option>';
-  const usedTexts = new Set();
-  Object.entries(seats).forEach(([k, v]) => {
-    if (v && v.text && parseInt(k) !== num) usedTexts.add(v.text);
-  });
-  roster.forEach(r => {
-    const text = r.num + ' ' + r.name;
-    if (!usedTexts.has(text)) {
-      const opt = document.createElement('option');
-      opt.value = text; opt.textContent = text;
-      sel.appendChild(opt);
-    }
-  });
-
+  const used = new Set(Object.entries(seats).filter(([k,v]) => v&&v.text&&parseInt(k)!==num).map(([,v])=>v.text));
+  roster.forEach(r => { const t=r.num+' '+r.name; if(!used.has(t)){const o=document.createElement('option');o.value=t;o.textContent=t;sel.appendChild(o);} });
   document.getElementById('seatOverlay').classList.add('active');
   setTimeout(() => document.getElementById('modalInput').focus(), 80);
 }
-
-document.getElementById('modalSelect').addEventListener('change', function() {
-  if (this.value) document.getElementById('modalInput').value = this.value;
-});
-
-function closeSeatModal() {
-  document.getElementById('seatOverlay').classList.remove('active');
-  selectedSeatNum = null;
-}
-
+document.getElementById('modalSelect').addEventListener('change', function() { if(this.value) document.getElementById('modalInput').value=this.value; });
+function closeSeatModal() { document.getElementById('seatOverlay').classList.remove('active'); selectedSeatNum=null; }
 function saveSeat() {
+  pushUndo();
   const val = document.getElementById('modalInput').value.trim();
   const locked = document.getElementById('lockCheck').checked;
-  if (val) seats[selectedSeatNum] = { text: val, locked };
+  const memo = document.getElementById('modalMemo').value.trim();
+  if (val) seats[selectedSeatNum] = { text:val, locked, memo };
   else delete seats[selectedSeatNum];
-  refreshSeat(selectedSeatNum);
-  updateStats();
-  triggerAutoSave();
-  closeSeatModal();
+  refreshSeat(selectedSeatNum); updateStats(); triggerAutoSave(); closeSeatModal();
 }
-
 function clearSeat() {
+  pushUndo();
   delete seats[selectedSeatNum];
-  refreshSeat(selectedSeatNum);
-  updateStats();
-  triggerAutoSave();
-  closeSeatModal();
+  refreshSeat(selectedSeatNum); updateStats(); triggerAutoSave(); closeSeatModal();
 }
+document.getElementById('modalInput').addEventListener('keydown', e => { if(e.key==='Enter') saveSeat(); if(e.key==='Escape') closeSeatModal(); });
+document.getElementById('seatOverlay').addEventListener('click', function(e) { if(e.target===this) closeSeatModal(); });
 
-document.getElementById('modalInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') saveSeat();
-  if (e.key === 'Escape') closeSeatModal();
-});
-document.getElementById('seatOverlay').addEventListener('click', function(e) {
-  if (e.target === this) closeSeatModal();
-});
-
-// ══════════════════════════════════════════════
-//  명단 붙여넣기 모달
-// ══════════════════════════════════════════════
+// ── 명단 모달 ──
 function parseRoster(raw) {
-  const lines = raw.split('\n').map(l => l.trim()).filter(l => l);
-  const result = [];
-  lines.forEach(line => {
-    const parts = line.split(/\t|,|  +/).map(p => p.trim()).filter(p => p);
-    if (parts.length >= 2) {
-      result.push({ num: parts[0], name: parts.slice(1).join(' ') });
-    } else if (parts.length === 1) {
-      const sp = parts[0].split(' ');
-      if (sp.length >= 2) result.push({ num: sp[0], name: sp.slice(1).join(' ') });
-    }
-  });
-  return result;
+  return raw.split('\n').map(l=>l.trim()).filter(l=>l).map(line=>{
+    const parts = line.split(/\t|,|  +/).map(p=>p.trim()).filter(p=>p);
+    if (parts.length>=2) return {num:parts[0],name:parts.slice(1).join(' ')};
+    const sp = parts[0]?.split(' '); if(sp&&sp.length>=2) return {num:sp[0],name:sp.slice(1).join(' ')};
+    return null;
+  }).filter(Boolean);
 }
-
 document.getElementById('bulkInput').addEventListener('input', function() {
-  const parsed = parseRoster(this.value);
-  const prev = document.getElementById('parsePreview');
-  if (parsed.length > 0) {
-    prev.textContent = `✅ ${parsed.length}명 인식됨 — 예: ${parsed[0].num} ${parsed[0].name}${parsed.length > 1 ? ' 외 ' + (parsed.length - 1) + '명' : ''}`;
-  } else {
-    prev.textContent = '';
-  }
+  const p = parseRoster(this.value);
+  document.getElementById('parsePreview').textContent = p.length ? `✅ ${p.length}명 인식됨 — 예: ${p[0].num} ${p[0].name}${p.length>1?' 외 '+(p.length-1)+'명':''}` : '';
 });
-
 function openBulk() {
   if (!activeClassId) { showToast('먼저 반을 선택해 주세요'); return; }
-  document.getElementById('bulkInput').value = '';
-  document.getElementById('parsePreview').textContent = '';
+  document.getElementById('bulkInput').value=''; document.getElementById('parsePreview').textContent='';
   document.getElementById('bulkOverlay').classList.add('active');
   setTimeout(() => document.getElementById('bulkInput').focus(), 80);
 }
-function closeBulkModal() {
-  document.getElementById('bulkOverlay').classList.remove('active');
-}
-document.getElementById('bulkOverlay').addEventListener('click', function(e) {
-  if (e.target === this) closeBulkModal();
-});
-
+function closeBulkModal() { document.getElementById('bulkOverlay').classList.remove('active'); }
+document.getElementById('bulkOverlay').addEventListener('click', function(e) { if(e.target===this) closeBulkModal(); });
 function applyBulk() {
-  const raw = document.getElementById('bulkInput').value;
-  const parsed = parseRoster(raw);
-  if (!parsed.length) {
-    alert('학생 명단을 인식하지 못했어요.\n학번과 이름이 탭 또는 쉼표로 구분되어 있는지 확인해주세요.');
-    return;
-  }
-  roster = parsed;
-  doRandomAssign(parsed);
-  triggerAutoSave();
-  closeBulkModal();
+  const parsed = parseRoster(document.getElementById('bulkInput').value);
+  if (!parsed.length) { alert('학생 명단을 인식하지 못했어요.'); return; }
+  roster = parsed; pushUndo(); doRandomAssign(parsed); triggerAutoSave(); closeBulkModal();
   showToast(`✅ ${parsed.length}명 랜덤 배치 완료`);
 }
 
-// ══════════════════════════════════════════════
-//  랜덤 배치
-// ══════════════════════════════════════════════
+// ── 랜덤 배치 ──
 function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
+  const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a;
 }
-
 function doRandomAssign(students) {
-  const lockedTexts = new Set();
-  Object.values(seats).forEach(s => { if (s && s.locked) lockedTexts.add(s.text); });
-  const toAssign = students.filter(r => !lockedTexts.has(r.num + ' ' + r.name));
+  const lockedTexts = new Set(Object.values(seats).filter(s=>s&&s.locked).map(s=>s.text));
+  const toAssign = students.filter(r => !lockedTexts.has(r.num+' '+r.name));
   const allNums = allSeatNums();
-  const freeNums = allNums.filter(n => !seats[n] || !seats[n].locked);
-  freeNums.forEach(n => { if (seats[n] && !seats[n].locked) delete seats[n]; });
-  const shuffledStudents = shuffle(toAssign);
-  // 번호 오름차순(앞자리 우선)으로 정렬 후 학생 수만큼만 사용 → 남는 자리는 뒤(30, 29, 28…)부터 비움
-  const sortedFreeNums = [...freeNums].sort((a, b) => a - b);
-  const usedSeats = shuffle(sortedFreeNums.slice(0, shuffledStudents.length));
-  shuffledStudents.forEach((stu, i) => {
-    seats[usedSeats[i]] = { text: stu.num + ' ' + stu.name, locked: false };
-  });
+  const freeNums = allNums.filter(n => !seats[n]||!seats[n].locked);
+  freeNums.forEach(n => { if(seats[n]&&!seats[n].locked) delete seats[n]; });
+  const sorted = [...freeNums].sort((a,b)=>a-b);
+  const used = shuffle(sorted.slice(0, shuffle(toAssign).length));
+  shuffle(toAssign).forEach((stu,i) => { if(used[i]) seats[used[i]] = {text:stu.num+' '+stu.name,locked:false,memo:''}; });
   refreshAllSeats();
 }
-
 function randomAssign() {
   if (!activeClassId) { showToast('먼저 반을 선택해 주세요'); return; }
   if (!roster.length) { showToast('먼저 명단을 붙여넣기 해주세요!'); return; }
-  doRandomAssign(roster);
-  triggerAutoSave();
-  showToast('🔀 랜덤 배치 완료');
+  pushUndo(); doRandomAssign(roster); triggerAutoSave(); showToast('🔀 랜덤 배치 완료');
 }
-
-// ══════════════════════════════════════════════
-//  초기화
-// ══════════════════════════════════════════════
 function clearAll() {
   if (!activeClassId) return;
   if (!confirm('고정 좌석을 포함한 모든 배치를 초기화할까요?')) return;
-  const allNums = allSeatNums();
-  allNums.forEach(n => delete seats[n]);
-  refreshAllSeats();
-  triggerAutoSave();
-  showToast('🗑️ 초기화 완료');
+  pushUndo(); allSeatNums().forEach(n => delete seats[n]); refreshAllSeats(); triggerAutoSave(); showToast('🗑️ 초기화 완료');
 }
 
-// ══════════════════════════════════════════════
-//  반 관리
-// ══════════════════════════════════════════════
+// ── 반 관리 ──
 function renderClassList() {
-  const container = document.getElementById('classList');
-  container.innerHTML = '';
-
-  if (!db.classes.length) {
-    const empty = document.createElement('div');
-    empty.style.cssText = 'padding:16px;font-size:12px;color:var(--gray-400);text-align:center;';
-    empty.textContent = '반이 없습니다';
-    container.appendChild(empty);
-    return;
-  }
-
-  // 연도-학기 그룹
+  const c = document.getElementById('classList'); c.innerHTML = '';
+  if (!db.classes.length) { c.innerHTML='<div style="padding:16px;font-size:12px;color:var(--gray-400);text-align:center">반이 없습니다</div>'; return; }
   const groups = {};
-  db.classes.forEach(c => {
-    const key = `${c.year}-${c.semester}`;
-    if (!groups[key]) groups[key] = { year: c.year, semester: c.semester, items: [] };
-    groups[key].items.push(c);
-  });
-
-  // 최신 연도-학기 순 정렬
-  const sortedKeys = Object.keys(groups).sort((a, b) => b.localeCompare(a));
-
-  sortedKeys.forEach(key => {
+  db.classes.forEach(cls => { const k=`${cls.year}-${cls.semester}`; if(!groups[k]) groups[k]={year:cls.year,semester:cls.semester,items:[]}; groups[k].items.push(cls); });
+  Object.keys(groups).sort((a,b)=>b.localeCompare(a)).forEach(key => {
     const g = groups[key];
-    const label = document.createElement('div');
-    label.className = 'class-group-label';
-    label.textContent = `${g.year}년 ${g.semester}학기`;
-    container.appendChild(label);
-
-    g.items.forEach(c => {
+    const lbl = document.createElement('div'); lbl.className='class-group-label'; lbl.textContent=`${g.year}년 ${g.semester}학기`; c.appendChild(lbl);
+    g.items.forEach(cls => {
       const item = document.createElement('div');
-      item.className = 'class-item' + (c.id === activeClassId ? ' active' : '');
-      item.innerHTML = `
-        <span class="class-item-name">${escapeHtml(c.name)}</span>
-        <button class="class-item-del" title="반 삭제" onclick="deleteClass(event, '${c.id}')">✕</button>
-      `;
-      item.addEventListener('click', () => selectClass(c.id));
-      container.appendChild(item);
+      item.className = 'class-item' + (cls.id===activeClassId?' active':'');
+      item.innerHTML = `<span class="class-item-name">${escapeHtml(cls.name)}</span><button class="class-item-del" title="반 삭제" onclick="deleteClass(event,'${cls.id}')">✕</button>`;
+      item.addEventListener('click', () => selectClass(cls.id));
+      c.appendChild(item);
     });
   });
 }
 
-function openAddClassModal() {
-  document.getElementById('acName').value = '';
-  document.getElementById('addClassOverlay').classList.add('active');
-  setTimeout(() => document.getElementById('acName').focus(), 80);
-}
-function closeAddClassModal() {
-  document.getElementById('addClassOverlay').classList.remove('active');
-}
-document.getElementById('addClassOverlay').addEventListener('click', function(e) {
-  if (e.target === this) closeAddClassModal();
-});
-document.getElementById('acName').addEventListener('keydown', e => {
-  if (e.key === 'Enter') doAddClass();
-  if (e.key === 'Escape') closeAddClassModal();
-});
-
+function openAddClassModal() { document.getElementById('acName').value=''; document.getElementById('addClassOverlay').classList.add('active'); setTimeout(()=>document.getElementById('acName').focus(),80); }
+function closeAddClassModal() { document.getElementById('addClassOverlay').classList.remove('active'); }
+document.getElementById('addClassOverlay').addEventListener('click', function(e){if(e.target===this)closeAddClassModal();});
+document.getElementById('acName').addEventListener('keydown', e=>{if(e.key==='Enter')doAddClass();if(e.key==='Escape')closeAddClassModal();});
 function doAddClass() {
-  const year = parseInt(document.getElementById('acYear').value);
-  const semester = parseInt(document.getElementById('acSem').value);
-  const name = document.getElementById('acName').value.trim();
-  if (!name) { alert('반 이름을 입력해주세요'); return; }
-
-  const id = 'c_' + Date.now();
-  db.classes.push({ id, year, semester, name, createdAt: new Date().toISOString() });
-  db.data[id] = { current: { seats: {}, roster: [], title: '' }, versions: [] };
-  saveDB();
-
-  closeAddClassModal();
-  renderClassList();
-  selectClass(id);
+  const year=parseInt(document.getElementById('acYear').value);
+  const semester=parseInt(document.getElementById('acSem').value);
+  const name=document.getElementById('acName').value.trim();
+  if(!name){alert('반 이름을 입력해주세요');return;}
+  const id='c_'+Date.now();
+  db.classes.push({id,year,semester,name,createdAt:new Date().toISOString()});
+  db.data[id]={current:{seats:{},roster:[],title:'',groupColors:{}},versions:[]};
+  saveDB(); closeAddClassModal(); renderClassList(); selectClass(id);
   showToast(`✅ "${name}" 반이 추가되었습니다`);
 }
-
 function deleteClass(e, classId) {
   e.stopPropagation();
-  const c = db.classes.find(x => x.id === classId);
-  if (!c) return;
-  if (!confirm(`"${c.name}" 반과 모든 버전 기록을 삭제할까요?`)) return;
-
-  db.classes = db.classes.filter(x => x.id !== classId);
-  delete db.data[classId];
-  saveDB();
-  renderClassList();
-
-  if (activeClassId === classId) {
-    activeClassId = null;
-    db.lastActiveClassId = null;
-    seats = {}; roster = [];
-    exitViewMode(false);
-    showNoClass();
-  }
+  const c = db.classes.find(x=>x.id===classId); if(!c) return;
+  if(!confirm(`"${c.name}" 반과 모든 버전 기록을 삭제할까요?`)) return;
+  db.classes=db.classes.filter(x=>x.id!==classId); delete db.data[classId]; saveDB(); renderClassList();
+  if(activeClassId===classId){activeClassId=null;db.lastActiveClassId=null;seats={};roster={};exitViewMode(false);showNoClass();}
   showToast(`🗑️ "${c.name}" 반이 삭제되었습니다`);
 }
-
-function selectClass(classId, doSave = true) {
-  // 뷰 모드 종료
+function selectClass(classId, doSave=true) {
   exitViewMode(false);
-
-  // 현재 반 저장 후 전환
-  if (activeClassId && doSave) {
-    persistCurrentToDB(activeClassId);
-  }
-
-  activeClassId = classId;
-  db.lastActiveClassId = classId;
-
-  const cd = getClassData(classId);
-  seats = deepClone(cd.current.seats || {});
-  roster = deepClone(cd.current.roster || []);
-  const classInfo = db.classes.find(c => c.id === classId);
-
-  // 제목 동기화
-  const titleVal = cd.current.title || (classInfo ? classInfo.name : '좌석 배치표');
-  document.getElementById('classTitle').value = titleVal;
-
-  // 클래스 태그
-  const tag = document.getElementById('classTag');
-  if (classInfo) {
-    tag.textContent = `${classInfo.year}-${classInfo.semester}학기 ${classInfo.name}`;
-    tag.classList.remove('empty');
-  }
-
-  // UI 전환
-  document.getElementById('noClassPlaceholder').style.display = 'none';
+  if(activeClassId&&doSave) persistCurrentToDB(activeClassId);
+  activeClassId=classId; db.lastActiveClassId=classId;
+  const cd=getClassData(classId);
+  seats=deepClone(cd.current.seats||{});
+  roster=deepClone(cd.current.roster||[]);
+  groupColors=deepClone(cd.current.groupColors||{});
+  const ci=db.classes.find(c=>c.id===classId);
+  document.getElementById('classTitle').value = cd.current.title||(ci?ci.name:'좌석 배치표');
+  const tag=document.getElementById('classTag');
+  if(ci){tag.textContent=`${ci.year}-${ci.semester}학기 ${ci.name}`;tag.classList.remove('empty');}
+  document.getElementById('noClassPlaceholder').style.display='none';
   document.getElementById('classroomArea').classList.add('visible');
-  document.getElementById('btnSaveVer').style.display = '';
-  document.getElementById('versionSection').style.display = 'flex';
-
-  renderClassList();
-  renderVersionList();
-  refreshAllSeats();
-
-  if (doSave) saveDB();
+  document.getElementById('btnSaveVer').style.display='';
+  document.getElementById('versionSection').style.display='flex';
+  undoStack=[];
+  renderClassList(); renderVersionList(); refreshAllSeats(); applyAllGroupColors();
+  if(doSave) saveDB();
 }
-
 function showNoClass() {
-  document.getElementById('noClassPlaceholder').style.display = '';
+  document.getElementById('noClassPlaceholder').style.display='';
   document.getElementById('classroomArea').classList.remove('visible');
-  document.getElementById('btnSaveVer').style.display = 'none';
-  document.getElementById('versionSection').style.display = 'none';
-  document.getElementById('classTag').textContent = '반 미선택';
+  document.getElementById('btnSaveVer').style.display='none';
+  document.getElementById('versionSection').style.display='none';
+  document.getElementById('classTag').textContent='반 미선택';
   document.getElementById('classTag').classList.add('empty');
-  document.getElementById('stats').textContent = '0 / 30명';
+  document.getElementById('stats').textContent='0 / 30명';
 }
-
 function persistCurrentToDB(classId) {
-  if (!classId) return;
-  const cd = getClassData(classId);
-  cd.current.seats = deepClone(seats);
-  cd.current.roster = deepClone(roster);
-  cd.current.title = document.getElementById('classTitle').value.trim();
+  if(!classId) return;
+  const cd=getClassData(classId);
+  cd.current.seats=deepClone(seats);
+  cd.current.roster=deepClone(roster);
+  cd.current.title=document.getElementById('classTitle').value.trim();
+  cd.current.groupColors=deepClone(groupColors);
 }
 
-// ══════════════════════════════════════════════
-//  버전 관리
-// ══════════════════════════════════════════════
+// ── 버전 관리 ──
 function renderVersionList() {
-  const container = document.getElementById('versionList');
-  container.innerHTML = '';
-  if (!activeClassId) return;
-
-  const cd = getClassData(activeClassId);
-  if (!cd.versions.length) {
-    container.innerHTML = '<div class="version-empty">저장된 버전 없음</div>';
-    return;
-  }
-
-  // 최신 순
-  [...cd.versions].reverse().forEach(ver => {
-    const item = document.createElement('div');
-    item.className = 'version-item' + (ver.id === viewingVersionId ? ' active-ver' : '');
-    const dt = new Date(ver.savedAt);
-    const dateStr = `${dt.getMonth()+1}/${dt.getDate()} ${dt.getHours().toString().padStart(2,'0')}:${dt.getMinutes().toString().padStart(2,'0')}`;
-    item.innerHTML = `
-      <span class="ver-icon">📋</span>
-      <div class="ver-info">
-        <div class="ver-label">${escapeHtml(ver.label)}</div>
-        <div class="ver-date">${dateStr}</div>
-      </div>
-      <button class="ver-del" title="삭제" onclick="deleteVersion(event, '${ver.id}')">✕</button>
-    `;
-    item.addEventListener('click', () => enterViewMode(ver.id));
-    container.appendChild(item);
+  const c=document.getElementById('versionList'); c.innerHTML='';
+  if(!activeClassId) return;
+  const cd=getClassData(activeClassId);
+  if(!cd.versions.length){c.innerHTML='<div class="version-empty">저장된 버전 없음</div>';return;}
+  [...cd.versions].reverse().forEach(ver=>{
+    const item=document.createElement('div');
+    item.className='version-item'+(ver.id===viewingVersionId?' active-ver':'');
+    const dt=new Date(ver.savedAt);
+    const ds=`${dt.getMonth()+1}/${dt.getDate()} ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}`;
+    item.innerHTML=`<span class="ver-icon">📋</span><div class="ver-info"><div class="ver-label">${escapeHtml(ver.label)}</div><div class="ver-date">${ds}</div></div><button class="ver-del" title="삭제" onclick="deleteVersion(event,'${ver.id}')">✕</button>`;
+    item.addEventListener('click',()=>enterViewMode(ver.id));
+    c.appendChild(item);
   });
 }
-
 function openSaveVersionModal() {
-  if (!activeClassId) return;
-  const now = new Date();
-  const defaultLabel = `${now.getMonth()+1}월 ${now.getDate()}일 배치`;
-  document.getElementById('verLabel').value = defaultLabel;
+  if(!activeClassId) return;
+  const now=new Date(); document.getElementById('verLabel').value=`${now.getMonth()+1}월 ${now.getDate()}일 배치`;
   document.getElementById('saveVersionOverlay').classList.add('active');
-  setTimeout(() => {
-    const inp = document.getElementById('verLabel');
-    inp.focus(); inp.select();
-  }, 80);
+  setTimeout(()=>{const i=document.getElementById('verLabel');i.focus();i.select();},80);
 }
-function closeSaveVersionModal() {
-  document.getElementById('saveVersionOverlay').classList.remove('active');
-}
-document.getElementById('saveVersionOverlay').addEventListener('click', function(e) {
-  if (e.target === this) closeSaveVersionModal();
-});
-document.getElementById('verLabel').addEventListener('keydown', e => {
-  if (e.key === 'Enter') doSaveVersion();
-  if (e.key === 'Escape') closeSaveVersionModal();
-});
-
+function closeSaveVersionModal(){document.getElementById('saveVersionOverlay').classList.remove('active');}
+document.getElementById('saveVersionOverlay').addEventListener('click',function(e){if(e.target===this)closeSaveVersionModal();});
+document.getElementById('verLabel').addEventListener('keydown',e=>{if(e.key==='Enter')doSaveVersion();if(e.key==='Escape')closeSaveVersionModal();});
 function doSaveVersion() {
-  const label = document.getElementById('verLabel').value.trim();
-  if (!label) { alert('버전 이름을 입력해주세요'); return; }
-
-  // 현재 상태를 먼저 DB에 반영
+  const label=document.getElementById('verLabel').value.trim();
+  if(!label){alert('버전 이름을 입력해주세요');return;}
   persistCurrentToDB(activeClassId);
-
-  const cd = getClassData(activeClassId);
-  const ver = {
-    id: 'v_' + Date.now(),
-    label,
-    savedAt: new Date().toISOString(),
-    seats: deepClone(seats),
-    roster: deepClone(roster)
-  };
-  cd.versions.push(ver);
-  saveDB();
-
-  closeSaveVersionModal();
-  renderVersionList();
-  showToast(`💾 "${label}" 버전이 저장되었습니다`);
+  const cd=getClassData(activeClassId);
+  cd.versions.push({id:'v_'+Date.now(),label,savedAt:new Date().toISOString(),seats:deepClone(seats),roster:deepClone(roster)});
+  saveDB(); closeSaveVersionModal(); renderVersionList(); showToast(`💾 "${label}" 버전이 저장되었습니다`);
 }
-
-function deleteVersion(e, verId) {
-  e.stopPropagation();
-  if (!confirm('이 버전을 삭제할까요?')) return;
-  const cd = getClassData(activeClassId);
-  cd.versions = cd.versions.filter(v => v.id !== verId);
-  saveDB();
-  if (viewingVersionId === verId) exitViewMode(true);
-  else renderVersionList();
+function deleteVersion(e,verId) {
+  e.stopPropagation(); if(!confirm('이 버전을 삭제할까요?')) return;
+  const cd=getClassData(activeClassId); cd.versions=cd.versions.filter(v=>v.id!==verId); saveDB();
+  if(viewingVersionId===verId) exitViewMode(true); else renderVersionList();
   showToast('🗑️ 버전이 삭제되었습니다');
 }
-
-// ── 뷰 모드 (과거 버전 보기) ──
 function enterViewMode(verId) {
-  const cd = getClassData(activeClassId);
-  const ver = cd.versions.find(v => v.id === verId);
-  if (!ver) return;
-
-  viewingVersionId = verId;
-  viewSeats = deepClone(ver.seats || {});
-
-  const dt = new Date(ver.savedAt);
-  const dateStr = `${dt.getFullYear()}년 ${dt.getMonth()+1}월 ${dt.getDate()}일`;
-  const banner = document.getElementById('viewModeBanner');
-  document.getElementById('viewModeBannerText').textContent =
-    `📖 "${ver.label}" (${dateStr}) — 보기 전용`;
-  banner.classList.add('visible');
-
-  // 툴바 비활성화
-  document.querySelectorAll('.toolbar .btn').forEach(b => {
-    b.disabled = true; b.style.opacity = '0.4';
-  });
-
-  renderVersionList();
-  refreshAllSeats();
-  showToast(`📖 "${ver.label}" 버전 보기 중`);
+  const cd=getClassData(activeClassId); const ver=cd.versions.find(v=>v.id===verId); if(!ver) return;
+  viewingVersionId=verId; viewSeats=deepClone(ver.seats||{});
+  const dt=new Date(ver.savedAt);
+  document.getElementById('viewModeBannerText').textContent=`📖 "${ver.label}" (${dt.getFullYear()}.${dt.getMonth()+1}.${dt.getDate()}) — 보기 전용`;
+  document.getElementById('viewModeBanner').classList.add('visible');
+  document.querySelectorAll('.toolbar .btn').forEach(b=>{b.disabled=true;b.style.opacity='0.4';});
+  renderVersionList(); refreshAllSeats(); showToast(`📖 "${ver.label}" 버전 보기 중`);
 }
-
-function exitViewMode(doRefresh = true) {
-  viewingVersionId = null;
-  viewSeats = null;
-
+function exitViewMode(doRefresh=true) {
+  viewingVersionId=null; viewSeats=null;
   document.getElementById('viewModeBanner').classList.remove('visible');
-
-  // 툴바 활성화
-  document.querySelectorAll('.toolbar .btn').forEach(b => {
-    b.disabled = false; b.style.opacity = '';
-  });
-
-  if (doRefresh) {
-    renderVersionList();
-    refreshAllSeats();
-  }
+  document.querySelectorAll('.toolbar .btn').forEach(b=>{b.disabled=false;b.style.opacity='';});
+  if(doRefresh){renderVersionList();refreshAllSeats();}
 }
-
 function restoreVersion() {
-  if (!viewingVersionId || !activeClassId) return;
-  const cd = getClassData(activeClassId);
-  const ver = cd.versions.find(v => v.id === viewingVersionId);
-  if (!ver) return;
-  if (!confirm(`"${ver.label}" 버전으로 현재 배치를 복원할까요?\n현재 배치는 덮어쓰여집니다.`)) return;
-
-  seats = deepClone(ver.seats || {});
-  roster = deepClone(ver.roster || []);
-
-  exitViewMode(false);
-  persistCurrentToDB(activeClassId);
-  saveDB();
-  refreshAllSeats();
+  if(!viewingVersionId||!activeClassId) return;
+  const cd=getClassData(activeClassId); const ver=cd.versions.find(v=>v.id===viewingVersionId); if(!ver) return;
+  if(!confirm(`"${ver.label}" 버전으로 복원할까요?`)) return;
+  pushUndo(); seats=deepClone(ver.seats||{}); roster=deepClone(ver.roster||[]);
+  exitViewMode(false); persistCurrentToDB(activeClassId); saveDB(); refreshAllSeats();
   showToast(`✅ "${ver.label}" 버전으로 복원되었습니다`);
 }
 
-// ══════════════════════════════════════════════
-//  자동 저장
-// ══════════════════════════════════════════════
-function triggerAutoSave() {
-  if (!activeClassId) return;
-  clearTimeout(autoSaveTimer);
-  autoSaveTimer = setTimeout(() => {
-    persistCurrentToDB(activeClassId);
-    saveDB();
-  }, 800);
+// ── 모둠 색상 ──
+function applyGroupColor(idx, colorKey) {
+  const preset = COLOR_PRESETS.find(p=>p.key===colorKey) || COLOR_PRESETS[0];
+  const el = groupEls[idx]; if(!el) return;
+  el.style.borderColor = preset.border || '';
+  el.querySelectorAll('.num-cell').forEach(nc => { nc.style.background = preset.bg || ''; });
+}
+function applyAllGroupColors() {
+  groupEls.forEach((_,i) => applyGroupColor(i, groupColors[i]||'default'));
+}
+function openColorModal() {
+  if(!activeClassId){showToast('먼저 반을 선택해 주세요');return;}
+  renderColorPickerGroups();
+  document.getElementById('colorPickerOverlay').classList.add('active');
+}
+function closeColorModal(){document.getElementById('colorPickerOverlay').classList.remove('active');}
+document.getElementById('colorPickerOverlay').addEventListener('click',function(e){if(e.target===this)closeColorModal();});
+function renderColorPickerGroups() {
+  const c=document.getElementById('colorPickerGroups'); c.innerHTML='';
+  GROUP_LABELS.forEach((label,idx)=>{
+    const row=document.createElement('div'); row.className='color-group-row';
+    const lbl=document.createElement('div'); lbl.className='color-group-label'; lbl.textContent=label; row.appendChild(lbl);
+    const sw=document.createElement('div'); sw.className='color-swatches';
+    COLOR_PRESETS.forEach(p=>{
+      const s=document.createElement('div'); s.className='color-swatch'+(( (groupColors[idx]||'default')===p.key)?' selected':'');
+      s.style.background=p.dot; s.title=p.label;
+      s.addEventListener('click',()=>{
+        groupColors[idx]=p.key; applyGroupColor(idx,p.key); triggerAutoSave();
+        sw.querySelectorAll('.color-swatch').forEach(x=>x.classList.remove('selected'));
+        s.classList.add('selected');
+      });
+      sw.appendChild(s);
+    });
+    row.appendChild(sw); c.appendChild(row);
+  });
+}
+function resetAllColors() {
+  groupEls.forEach((_,i)=>{groupColors[i]='default'; applyGroupColor(i,'default');}); triggerAutoSave(); showToast('색상이 초기화되었습니다');
+  renderColorPickerGroups();
 }
 
-// 타이틀 변경 시 자동 저장
-document.getElementById('classTitle').addEventListener('input', () => {
-  triggerAutoSave();
-});
-
-// ══════════════════════════════════════════════
-//  토스트
-// ══════════════════════════════════════════════
-let toastTimer = null;
-function showToast(msg, duration = 2200) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), duration);
+// ── CSV 내보내기 ──
+function toggleExportMenu() { document.getElementById('exportMenu').classList.toggle('open'); }
+function closeExportMenu() { document.getElementById('exportMenu').classList.remove('open'); }
+document.addEventListener('click', e=>{ if(!document.getElementById('exportWrap').contains(e.target)) closeExportMenu(); });
+function exportCSV() {
+  if(!activeClassId){showToast('먼저 반을 선택해 주세요');return;}
+  let csv='﻿좌석번호,학번,이름,고정여부,메모\n';
+  allSeatNums().sort((a,b)=>a-b).forEach(n=>{
+    const s=seats[n];
+    if(s&&s.text){
+      const sp=s.text.indexOf(' ');
+      const num=sp>-1?s.text.substring(0,sp):'';
+      const name=sp>-1?s.text.substring(sp+1):s.text;
+      csv+=`${n},"${num}","${name}",${s.locked?'Y':'N'},"${(s.memo||'').replace(/"/g,'""')}"\n`;
+    } else { csv+=`${n},,,,\n`; }
+  });
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const ci=db.classes.find(c=>c.id===activeClassId);
+  const today=new Date();
+  const ds=`${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}`;
+  a.href=url; a.download=(ci?`${ci.year}-${ci.semester}학기-${ci.name}_${ds}`:`좌석배치표_${ds}`)+'.csv';
+  a.click(); URL.revokeObjectURL(url);
+  showToast('📊 CSV 다운로드 완료');
 }
 
-// ══════════════════════════════════════════════
-//  유틸
-// ══════════════════════════════════════════════
-function deepClone(obj) {
-  return JSON.parse(JSON.stringify(obj));
-}
-
-function escapeHtml(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// ── 인쇄 (파일명 지정) ──
+// ── 인쇄 ──
 function printWithFilename() {
-  const classInfo = activeClassId ? db.classes.find(c => c.id === activeClassId) : null;
-  const today = new Date();
-  const dateStr = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}`;
-  const filename = classInfo
-    ? `${classInfo.year}-${classInfo.semester}학기-${classInfo.name}_${dateStr}`
-    : `좌석배치표_${dateStr}`;
-  const prev = document.title;
-  document.title = filename;
-  window.print();
-  document.title = prev;
+  const ci=activeClassId?db.classes.find(c=>c.id===activeClassId):null;
+  const today=new Date();
+  const dateStr=`${today.getFullYear()}.${String(today.getMonth()+1).padStart(2,'0')}.${String(today.getDate()).padStart(2,'0')}`;
+  const filenameDate=dateStr.replace(/\./g,'');
+  document.getElementById('printClassName').textContent = ci?`${ci.year}년 ${ci.semester}학기 ${ci.name} 좌석 배치표`:'좌석 배치표';
+  document.getElementById('printDate').textContent = `출력일: ${dateStr}`;
+  const filename = ci?`${ci.year}-${ci.semester}학기-${ci.name}_${filenameDate}`:`좌석배치표_${filenameDate}`;
+  const prev=document.title; document.title=filename; window.print(); document.title=prev;
 }
 
-// ESC 키 모달 닫기
+// ── 자동 저장 ──
+function triggerAutoSave() {
+  if(!activeClassId) return;
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer=setTimeout(()=>{persistCurrentToDB(activeClassId);saveDB();},800);
+}
+document.getElementById('classTitle').addEventListener('input',()=>triggerAutoSave());
+
+// ── 토스트 ──
+let toastTimer=null;
+function showToast(msg,dur=2200) {
+  const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>el.classList.remove('show'),dur);
+}
+
+// ── 유틸 ──
+function deepClone(o){return JSON.parse(JSON.stringify(o));}
+function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ── 키보드 단축키 ──
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    if (document.getElementById('seatOverlay').classList.contains('active')) { closeSeatModal(); return; }
-    if (document.getElementById('bulkOverlay').classList.contains('active')) { closeBulkModal(); return; }
-    if (document.getElementById('addClassOverlay').classList.contains('active')) { closeAddClassModal(); return; }
+  if ((e.ctrlKey||e.metaKey) && e.key==='z' && !e.shiftKey) { e.preventDefault(); undo(); return; }
+  if (e.key==='Escape') {
+    if (document.getElementById('seatOverlay').classList.contains('active'))        { closeSeatModal(); return; }
+    if (document.getElementById('bulkOverlay').classList.contains('active'))        { closeBulkModal(); return; }
+    if (document.getElementById('addClassOverlay').classList.contains('active'))    { closeAddClassModal(); return; }
     if (document.getElementById('saveVersionOverlay').classList.contains('active')) { closeSaveVersionModal(); return; }
+    if (document.getElementById('colorPickerOverlay').classList.contains('active')) { closeColorModal(); return; }
     if (viewingVersionId) { exitViewMode(true); return; }
-    if (swapMode) { toggleSwapMode(); return; }
+    if (swapMode)         { toggleSwapMode(); return; }
+    if (searchQuery)      { const si=document.getElementById('searchInput'); si.value=''; onSearch(''); return; }
   }
 });
 
-// 페이지 나가기 전 저장
-window.addEventListener('beforeunload', () => {
-  if (activeClassId) {
-    persistCurrentToDB(activeClassId);
-    saveDB();
-  }
-});
+window.addEventListener('beforeunload',()=>{ if(activeClassId){persistCurrentToDB(activeClassId);saveDB();} });
 
-// ══════════════════════════════════════════════
-//  시작
-// ══════════════════════════════════════════════
 init();
 </script>
 </body>
